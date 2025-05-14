@@ -22,7 +22,7 @@ dynamic = ["version"]
 requires-python = ">=3.6"
 dependencies = [ # write all needed libraries
   "optuna",
-  "pytorch",
+  "torch",
   "joblib",
   "scikit-learn",
   "numpy==1.24.0",
