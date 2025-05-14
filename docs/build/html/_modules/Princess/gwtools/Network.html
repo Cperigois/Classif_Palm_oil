@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Princess.gwtools.Network &mdash; Princess 0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=7026087e"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Princess
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html">Pkg astrotools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#pkg-cosmology">Pkg Cosmology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#pkg-gwtools">Pkg gwtools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#pkg-stochastic">Pkg stochastic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#module-Princess.Run">Run</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Princess</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Princess.gwtools.Network</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Princess.gwtools.Network</h1><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading </span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pycbc.psd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Princess.gwtools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">zmaximal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Princess.Run.settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">PARAMS_FILE</span>
+
+<span class="c1"># Check PARAMS_FILE value</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">PARAMS_FILE</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">PARAMS_FILE</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The file parameter </span><span class="si">{</span><span class="n">PARAMS_FILE</span><span class="si">}</span><span class="s2"> is missing,. Execute Run.settings.Make_params_file() first.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Charge le fichier de paramètres</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">PARAMS_FILE</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Network">
+<a class="viewcode-back" href="../../../doc.html#Princess.gwtools.Network.Network">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Network</span><span class="p">:</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">efficiency</span><span class="p">:</span><span class="nb">float</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">SNR_thrs</span><span class="p">:</span><span class="nb">float</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span> <span class="n">duration</span><span class="p">:</span><span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+                 <span class="n">name</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">compo</span><span class="p">:</span><span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">,</span><span class="n">pic_file</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create an instance of your network.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        :param name (str): Name the network will be reffered to in further savings.</span>
+<span class="sd">        :param compo (list): List of Detectors composing the network. The programm currently does not allow to mix</span>
+<span class="sd">            generations of detectors.</span>
+<span class="sd">        :param pic_file (str): Path and file referring where the PIC is stored.</span>
+<span class="sd">        :param freq (np.1Darray): Array used to compute the sensitivity. Needs to be coherent with the detectors</span>
+<span class="sd">            frequency ranges.</span>
+<span class="sd">        :param efficiency (float): Duty cycle of the network, refers to the proportion of time the network has all</span>
+<span class="sd">            detectors operational. Default is 1.</span>
+<span class="sd">        :param SNR_thrs (float): Set the detection threshold of the detector. Default is 12.</span>
+<span class="sd">        :param duration (float): Observation duration in yr. Default is 1.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Set class variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;Run/&#39;</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_NET.pickle&#39;</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">compo</span> <span class="o">=</span> <span class="n">compo</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pic_file</span> <span class="o">=</span> <span class="n">pic_file</span>
+            <span class="n">keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">compo</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">efficiency</span> <span class="o">=</span> <span class="n">efficiency</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SNR_thrs</span> <span class="o">=</span> <span class="n">SNR_thrs</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">duration</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_detectors_attributes</span><span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Load a Detector object from a pickle file.</span>
+
+<span class="sd">        :param name: Name of the detector.</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: The loaded Detector object.</span>
+<span class="sd">        :rtype: Detector</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;./Run/</span><span class="si">{</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;name_of_project_folder&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">/&#39;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_NET.pickle&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="c1"># Ensure data is used to create an instance of Detector</span>
+            <span class="n">network</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">network</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">network</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">data</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Loaded data is not a valid Network instance or dictionary.&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Network.get_detectors_attributes">
+<a class="viewcode-back" href="../../../doc.html#Princess.gwtools.Network.Network.get_detectors_attributes">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_detectors_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name_detector</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Run/</span><span class="si">{</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">name_detector</span><span class="si">}</span><span class="s2">_DET.pickle&quot;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">detector_instance</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">=</span> <span class="n">detector_instance</span><span class="p">[</span><span class="s1">&#39;freq&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">detector_instance</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Network.reshape_pic">
+<a class="viewcode-back" href="../../../doc.html#Princess.gwtools.Network.Network.reshape_pic">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reshape_pic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">Header</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reshape your psd to fit the Make psd function and write it in a new file in AuxiliaryFiles/PSDs.</span>
+<span class="sd">        It also uptate the variable psd_file to the new directory.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        :param delimiter (str): delimiter used in the original file. Default is &#39;\t&#39;.</span>
+<span class="sd">        :param Header (bool): True if the original file contain a header. Default is False.</span>
+<span class="sd">        :param index (bool): True if the original file contain a column with indexes. Default is False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">sens</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pic_name</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;sens&#39;</span><span class="p">],</span> <span class="n">sep</span><span class="o">=</span><span class="n">delimiter</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">Header</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">interp</span> <span class="o">=</span> <span class="n">InterpolatedUnivariateSpline</span><span class="p">(</span><span class="n">sens</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">],</span> <span class="n">sens</span><span class="p">[</span><span class="s1">&#39;sens&#39;</span><span class="p">])</span>
+        <span class="n">df_out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="n">freq</span><span class="p">,</span> <span class="s1">&#39;pic&#39;</span><span class="p">:</span> <span class="n">interp</span><span class="p">(</span><span class="n">freq</span><span class="p">)})</span>
+        <span class="n">df_out</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;../AuxiliaryFiles/PICs/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.dat&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pic_file</span> <span class="o">=</span> <span class="s1">&#39;../AuxiliaryFiles/PICs/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;.dat&#39;</span></div>
+
+
+<div class="viewcode-block" id="Network.SNR_individual">
+<a class="viewcode-back" href="../../../doc.html#Princess.gwtools.Network.Network.SNR_individual">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">SNR_individual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">astromodel_catalogue</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the signal-to-noise ratios (SNRs) of each source of a catalogues for the given network.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        :param astromodel_catalogue (str): Path to a catalogues of binaries</span>
+<span class="sd">        :return: SNR (1Darray): Array of the catalogue size containing the SNRs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">astromodel_catalogue</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index_col</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">SNR</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cat</span><span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">]))</span>
+        <span class="k">for</span> <span class="n">evt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cat</span><span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">]))</span> <span class="p">:</span>
+            <span class="n">event</span> <span class="o">=</span> <span class="n">cat</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">evt</span><span class="p">]</span>
+            <span class="n">wf</span> <span class="o">=</span> <span class="n">pycbc</span><span class="o">.</span><span class="n">waveform</span><span class="o">.</span><span class="n">get_fd_waveform</span><span class="p">(</span><span class="n">approximant</span><span class="o">=</span><span class="n">approximant</span><span class="p">,</span>
+                                                      <span class="n">mass1</span><span class="o">=</span><span class="n">event</span><span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">+</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]),</span>
+                                                      <span class="n">mass2</span><span class="o">=</span><span class="n">event</span><span class="p">[</span><span class="s1">&#39;m2&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">+</span> <span class="n">event</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]),</span>
+                                                      <span class="n">spin1x</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">spin1y</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">spin1z</span><span class="o">=</span><span class="n">event</span><span class="p">[</span><span class="s1">&#39;s1&#39;</span><span class="p">],</span>
+                                                      <span class="n">spin2x</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">spin2y</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">spin2z</span><span class="o">=</span><span class="n">event</span><span class="p">[</span><span class="s1">&#39;s2&#39;</span><span class="p">],</span>
+                                                      <span class="n">delta_f</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                                      <span class="n">f_lower</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                                      <span class="n">distance</span><span class="o">=</span><span class="n">event</span><span class="o">.</span><span class="n">Dl</span><span class="p">,</span> <span class="n">f_ref</span><span class="o">=</span><span class="mf">20.</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">compo</span><span class="p">:</span>
+                <span class="n">SNR</span><span class="p">[</span><span class="n">evt</span><span class="p">]</span><span class="o">+=</span> <span class="n">pycbc</span><span class="o">.</span><span class="n">filter</span><span class="o">.</span><span class="n">matchedfilter</span><span class="o">.</span><span class="n">sigma</span><span class="p">(</span><span class="n">wf</span><span class="p">,</span> <span class="n">psd</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">psd</span><span class="p">,</span> <span class="n">low_frequency_cutoff</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">freq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                                         <span class="n">high_frequency_cutoff</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">freq</span><span class="p">))</span>
+            <span class="n">SNR</span><span class="p">[</span><span class="n">evt</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">SNR</span><span class="p">[</span><span class="n">evt</span><span class="p">])</span>
+        <span class="n">cat</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">SNR</span>
+        <span class="k">return</span> <span class="n">SNR</span></div>
+
+
+
+
+<div class="viewcode-block" id="Network.horizon">
+<a class="viewcode-back" href="../../../doc.html#Princess.gwtools.Network.Network.horizon">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">horizon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">SNR_threshold</span><span class="p">:</span><span class="nb">float</span> <span class="o">=</span> <span class="mf">9.</span><span class="p">,</span> <span class="n">mmin</span><span class="p">:</span><span class="nb">float</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">mmax</span><span class="p">:</span><span class="nb">float</span> <span class="o">=</span> <span class="mf">10000.</span><span class="p">,</span> <span class="n">waveform</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;IMRPhenomD&quot;</span><span class="p">,</span> <span class="n">zmax</span><span class="p">:</span><span class="nb">float</span> <span class="o">=</span> <span class="mf">150.</span><span class="p">,</span> <span class="n">mratio</span><span class="p">:</span><span class="nb">float</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">):</span>
+        <span class="n">deltaz</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">]</span>
+        <span class="n">Mtot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">mmin</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">mmax</span><span class="p">),</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">Hori</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Mtot</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">Mtot</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Mtot</span><span class="p">)):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="mf">0.001</span>
+            <span class="n">m1</span> <span class="o">=</span> <span class="n">Mtot</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">*</span> <span class="n">mratio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">mratio</span><span class="p">)</span>
+            <span class="n">m2</span> <span class="o">=</span> <span class="n">m1</span> <span class="o">/</span> <span class="n">mratio</span>
+            <span class="n">zmax_1Hz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">zmaximal</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span><span class="n">m2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.2</span><span class="p">),</span><span class="mf">0.001</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">dz</span> <span class="ow">in</span> <span class="n">deltaz</span> <span class="p">:</span>
+                <span class="n">snr</span> <span class="o">=</span> <span class="n">SNR_threshold</span><span class="o">+</span><span class="mf">0.001</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">snr</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="n">SNR_threshold</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="n">zmax_1Hz</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">zmax</span><span class="p">)</span>
+                <span class="k">while</span> <span class="p">((</span><span class="n">snr</span> <span class="o">&gt;</span> <span class="n">SNR_threshold</span><span class="p">)</span><span class="o">&amp;</span><span class="p">((</span><span class="n">z</span><span class="o">+</span><span class="n">dz</span><span class="p">)</span><span class="o">&lt;</span><span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">zmax_1Hz</span><span class="p">,</span><span class="n">zmax</span><span class="p">)))</span> <span class="p">:</span>
+                    <span class="n">z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">+</span> <span class="n">dz</span>
+                    <span class="n">snr_net</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">compo</span><span class="p">:</span>
+                        <span class="n">snr_net</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">SNR_source</span><span class="p">(</span><span class="n">Mtot</span><span class="p">[</span><span class="n">m</span><span class="p">],</span><span class="n">z</span><span class="p">,</span> <span class="n">mratio</span><span class="p">,</span> <span class="n">waveform</span><span class="p">),</span><span class="mf">2.</span><span class="p">)</span>
+                    <span class="n">snr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">snr_net</span><span class="p">)</span>
+                <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">z</span> <span class="o">-</span> <span class="n">dz</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+            <span class="n">Hori</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">z</span><span class="o">+</span><span class="n">dz</span>
+        <span class="n">output</span> <span class="o">=</span>  <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Mtot&#39;</span><span class="p">:</span><span class="n">Mtot</span><span class="p">,</span> <span class="s1">&#39;Horizon&#39;</span><span class="p">:</span><span class="n">Hori</span><span class="p">})</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;Horizon_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">mmax</span><span class="p">)</span><span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">zmax</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">waveform</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;Horizon&#39;</span><span class="p">)</span> <span class="o">==</span><span class="kc">False</span> <span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s1">&#39;Horizon&#39;</span><span class="p">)</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;Horizon/&#39;</span><span class="o">+</span><span class="n">filename</span><span class="o">+</span><span class="s1">&#39;.dat&#39;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Network.load">
+<a class="viewcode-back" href="../../../doc.html#Princess.gwtools.Network.Network.load">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;try load self.name.txt&quot;&quot;&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;./Run/&#39;</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
+        <span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_NET.pickle&#39;</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span>
+        <span class="n">data_pickle</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data_pickle</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Network.save">
+<a class="viewcode-back" href="../../../doc.html#Princess.gwtools.Network.Network.save">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;./Run/&#39;</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
+        <span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_NET.pickle&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">))</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Carole Périgois.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

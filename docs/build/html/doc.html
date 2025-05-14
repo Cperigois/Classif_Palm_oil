@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pkg astrotools &mdash; Princess 0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=7026087e"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to Princess’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Princess
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pkg astrotools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-Princess.astrotools.astromodel">class AstroModel</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.astrotools.astromodel.AstroModel"><code class="docutils literal notranslate"><span class="pre">AstroModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.astrotools.astromodel.AstroModel.check_SNR_reboot"><code class="docutils literal notranslate"><span class="pre">AstroModel.check_SNR_reboot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.astrotools.astromodel.AstroModel.compute_SNR"><code class="docutils literal notranslate"><span class="pre">AstroModel.compute_SNR()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.astrotools.astromodel.AstroModel.compute_chieff"><code class="docutils literal notranslate"><span class="pre">AstroModel.compute_chieff()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.astrotools.astromodel.AstroModel.compute_chip"><code class="docutils literal notranslate"><span class="pre">AstroModel.compute_chip()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.astrotools.astromodel.AstroModel.compute_spins"><code class="docutils literal notranslate"><span class="pre">AstroModel.compute_spins()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.astrotools.astromodel.AstroModel.generate_spin"><code class="docutils literal notranslate"><span class="pre">AstroModel.generate_spin()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.astrotools.astromodel.AstroModel.load"><code class="docutils literal notranslate"><span class="pre">AstroModel.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.astrotools.astromodel.AstroModel.make_catalog"><code class="docutils literal notranslate"><span class="pre">AstroModel.make_catalog()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.astrotools.astromodel.AstroModel.save"><code class="docutils literal notranslate"><span class="pre">AstroModel.save()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Princess.astrotools.catalogue_generation">catalogue_generation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.astrotools.catalogue_generation.generate_population"><code class="docutils literal notranslate"><span class="pre">generate_population()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.astrotools.catalogue_generation.sample_distribution"><code class="docutils literal notranslate"><span class="pre">sample_distribution()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.astrotools.catalogue_generation.save_population"><code class="docutils literal notranslate"><span class="pre">save_population()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#pkg-cosmology">Pkg Cosmology</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-Princess.cosmology.cosmology">class cosmology</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.cosmology.cosmology.Cosmology"><code class="docutils literal notranslate"><span class="pre">Cosmology</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.cosmology.cosmology.Cosmology.comoving_volume"><code class="docutils literal notranslate"><span class="pre">Cosmology.comoving_volume()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.cosmology.cosmology.Cosmology.compute_dl"><code class="docutils literal notranslate"><span class="pre">Cosmology.compute_dl()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.cosmology.cosmology.Cosmology.compute_z"><code class="docutils literal notranslate"><span class="pre">Cosmology.compute_z()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.cosmology.cosmology.Cosmology.info"><code class="docutils literal notranslate"><span class="pre">Cosmology.info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.cosmology.cosmology.Cosmology.load"><code class="docutils literal notranslate"><span class="pre">Cosmology.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.cosmology.cosmology.Cosmology.luminosity_distance"><code class="docutils literal notranslate"><span class="pre">Cosmology.luminosity_distance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.cosmology.cosmology.Cosmology.luminosity_distance_table"><code class="docutils literal notranslate"><span class="pre">Cosmology.luminosity_distance_table()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.cosmology.cosmology.Cosmology.object_age"><code class="docutils literal notranslate"><span class="pre">Cosmology.object_age()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.cosmology.cosmology.Cosmology.save"><code class="docutils literal notranslate"><span class="pre">Cosmology.save()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#pkg-gwtools">Pkg gwtools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-Princess.gwtools.initialization">initialization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.gwtools.initialization.initialization"><code class="docutils literal notranslate"><span class="pre">initialization()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Princess.gwtools.Detector">class Detectors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.gwtools.Detector.Detector"><code class="docutils literal notranslate"><span class="pre">Detector</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.gwtools.Detector.Detector.SNR_source"><code class="docutils literal notranslate"><span class="pre">Detector.SNR_source()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.gwtools.Detector.Detector.evaluate_performance"><code class="docutils literal notranslate"><span class="pre">Detector.evaluate_performance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.gwtools.Detector.Detector.get_psd_file"><code class="docutils literal notranslate"><span class="pre">Detector.get_psd_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.gwtools.Detector.Detector.get_psd_pycbc_compatible"><code class="docutils literal notranslate"><span class="pre">Detector.get_psd_pycbc_compatible()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.gwtools.Detector.Detector.handle_missing_frequency"><code class="docutils literal notranslate"><span class="pre">Detector.handle_missing_frequency()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.gwtools.Detector.Detector.initialize_detector"><code class="docutils literal notranslate"><span class="pre">Detector.initialize_detector()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.gwtools.Detector.Detector.load"><code class="docutils literal notranslate"><span class="pre">Detector.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.gwtools.Detector.Detector.make_frequency"><code class="docutils literal notranslate"><span class="pre">Detector.make_frequency()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.gwtools.Detector.Detector.make_psd"><code class="docutils literal notranslate"><span class="pre">Detector.make_psd()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.gwtools.Detector.Detector.reshape_psd"><code class="docutils literal notranslate"><span class="pre">Detector.reshape_psd()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.gwtools.Detector.Detector.save"><code class="docutils literal notranslate"><span class="pre">Detector.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.gwtools.Detector.Detector.train_model_if_needed"><code class="docutils literal notranslate"><span class="pre">Detector.train_model_if_needed()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Princess.gwtools.Network">class Network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.gwtools.Network.Network"><code class="docutils literal notranslate"><span class="pre">Network</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.gwtools.Network.Network.SNR_individual"><code class="docutils literal notranslate"><span class="pre">Network.SNR_individual()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.gwtools.Network.Network.get_detectors_attributes"><code class="docutils literal notranslate"><span class="pre">Network.get_detectors_attributes()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.gwtools.Network.Network.horizon"><code class="docutils literal notranslate"><span class="pre">Network.horizon()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.gwtools.Network.Network.load"><code class="docutils literal notranslate"><span class="pre">Network.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.gwtools.Network.Network.reshape_pic"><code class="docutils literal notranslate"><span class="pre">Network.reshape_pic()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.gwtools.Network.Network.save"><code class="docutils literal notranslate"><span class="pre">Network.save()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Princess.gwtools.waveform">waveform</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.gwtools.waveform.GWk_no_ecc_pycbcwf"><code class="docutils literal notranslate"><span class="pre">GWk_no_ecc_pycbcwf()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Princess.gwtools.snr">snr</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.gwtools.snr.SNR_catalog"><code class="docutils literal notranslate"><span class="pre">SNR_catalog()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.gwtools.snr.SNR_pycbc_catalog"><code class="docutils literal notranslate"><span class="pre">SNR_pycbc_catalog()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.gwtools.snr.SNR_single"><code class="docutils literal notranslate"><span class="pre">SNR_single()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.gwtools.snr.combine_snr_detectors"><code class="docutils literal notranslate"><span class="pre">combine_snr_detectors()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.gwtools.snr.compute_SNR_Networks_catalog"><code class="docutils literal notranslate"><span class="pre">compute_SNR_Networks_catalog()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#pkg-stochastic">Pkg stochastic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-Princess.stochastic.background">class background</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.stochastic.background.Background"><code class="docutils literal notranslate"><span class="pre">Background</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.stochastic.background.Background.Analysis"><code class="docutils literal notranslate"><span class="pre">Background.Analysis()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.stochastic.background.Background.Analysis_noResidual"><code class="docutils literal notranslate"><span class="pre">Background.Analysis_noResidual()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.stochastic.background.Background.Make_Ana_Output"><code class="docutils literal notranslate"><span class="pre">Background.Make_Ana_Output()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.stochastic.background.Background.Network_list"><code class="docutils literal notranslate"><span class="pre">Background.Network_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.stochastic.background.Background.Omega"><code class="docutils literal notranslate"><span class="pre">Background.Omega()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.stochastic.background.Background.Omega_ecc"><code class="docutils literal notranslate"><span class="pre">Background.Omega_ecc()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.stochastic.background.Background.Omega_pycbc"><code class="docutils literal notranslate"><span class="pre">Background.Omega_pycbc()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.stochastic.background.Background.Write_results"><code class="docutils literal notranslate"><span class="pre">Background.Write_results()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Princess.stochastic.background.Background.compute_Omega"><code class="docutils literal notranslate"><span class="pre">Background.compute_Omega()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.stochastic.background.process_background_computation"><code class="docutils literal notranslate"><span class="pre">process_background_computation()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Princess.stochastic.snr">background snr</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.stochastic.snr.SNR_Net_wf"><code class="docutils literal notranslate"><span class="pre">SNR_Net_wf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.stochastic.snr.SNR_Omega"><code class="docutils literal notranslate"><span class="pre">SNR_Omega()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.stochastic.snr.SNR_bkg"><code class="docutils literal notranslate"><span class="pre">SNR_bkg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.stochastic.snr.SNR_bkg_1det"><code class="docutils literal notranslate"><span class="pre">SNR_bkg_1det()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.stochastic.snr.SNR_bkgtrash"><code class="docutils literal notranslate"><span class="pre">SNR_bkgtrash()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.stochastic.snr.SNR_run"><code class="docutils literal notranslate"><span class="pre">SNR_run()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.stochastic.snr.SNRwf"><code class="docutils literal notranslate"><span class="pre">SNRwf()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-Princess.stochastic.utils">utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.stochastic.utils.Compute_constant"><code class="docutils literal notranslate"><span class="pre">Compute_constant()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.stochastic.utils.Cst_snr_bkg"><code class="docutils literal notranslate"><span class="pre">Cst_snr_bkg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.stochastic.utils.Search_Omg"><code class="docutils literal notranslate"><span class="pre">Search_Omg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Princess.stochastic.utils.rho_c"><code class="docutils literal notranslate"><span class="pre">rho_c()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#module-Princess.Run">Run</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Princess.Run.Make_param_file"><code class="docutils literal notranslate"><span class="pre">Make_param_file()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Princess.Run.clean"><code class="docutils literal notranslate"><span class="pre">clean()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Princess.Run.make_params_template"><code class="docutils literal notranslate"><span class="pre">make_params_template()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Princess.Run.set"><code class="docutils literal notranslate"><span class="pre">set()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Princess</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Pkg astrotools</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/doc.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pkg-astrotools">
+<h1>Pkg astrotools<a class="headerlink" href="#pkg-astrotools" title="Link to this heading"></a></h1>
+<section id="module-Princess.astrotools.astromodel">
+<span id="class-astromodel"></span><h2>class AstroModel<a class="headerlink" href="#module-Princess.astrotools.astromodel" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Princess.astrotools.astromodel.AstroModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AstroModel</span></span><a class="reference internal" href="_modules/Princess/astrotools/astromodel.html#AstroModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.astrotools.astromodel.AstroModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>)</p></li>
+<li><p><strong>duration</strong> (<em>float</em>)</p></li>
+<li><p><strong>original_path</strong> (<em>str</em>)</p></li>
+<li><p><strong>sep</strong> (<em>str</em>)</p></li>
+<li><p><strong>index_column</strong> (<em>bool</em>)</p></li>
+<li><p><strong>flags</strong> (<em>dict</em>)</p></li>
+<li><p><strong>spin_model</strong> (<em>str</em>)</p></li>
+<li><p><strong>orbit_evolution</strong> (<em>bool</em>)</p></li>
+<li><p><strong>inclination_position</strong> (<em>bool</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.astrotools.astromodel.AstroModel.check_SNR_reboot">
+<span class="sig-name descname"><span class="pre">check_SNR_reboot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/astrotools/astromodel.html#AstroModel.check_SNR_reboot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.astrotools.astromodel.AstroModel.check_SNR_reboot" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.astrotools.astromodel.AstroModel.compute_SNR">
+<span class="sig-name descname"><span class="pre">compute_SNR</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/astrotools/astromodel.html#AstroModel.compute_SNR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.astrotools.astromodel.AstroModel.compute_SNR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.astrotools.astromodel.AstroModel.compute_chieff">
+<span class="sig-name descname"><span class="pre">compute_chieff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cos_theta_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cos_theta_2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/astrotools/astromodel.html#AstroModel.compute_chieff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.astrotools.astromodel.AstroModel.compute_chieff" title="Link to this definition"></a></dt>
+<dd><p>Compute the effective spin of each binaries.
+:param :
+:type : param m1 (np.1darray): Array containing the masses of the first component.
+:param :
+:type : param m2 (np.1darray): Array containing the masses of the second component.
+:param :
+:type : param chi1 (np.1darray): Array containing the magnitudes of the first components.
+:param :
+:type : param chi2 (np.1darray): Array containing the magnitudes of the second components.
+:param :
+:type : param cos_theta_1 (np.1darray): Array containing the theta cosine of the first components.
+:param :
+:type : param cos_theta_2 (np.1darray): Array containing the theta cosine of the second components.
+:param :
+:type : return (np.1darray): Array with the effective spin of each binaries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>m1</strong> (<em>ndarray</em>)</p></li>
+<li><p><strong>m2</strong> (<em>ndarray</em>)</p></li>
+<li><p><strong>chi1</strong> (<em>ndarray</em>)</p></li>
+<li><p><strong>chi2</strong> (<em>ndarray</em>)</p></li>
+<li><p><strong>cos_theta_1</strong> (<em>ndarray</em>)</p></li>
+<li><p><strong>cos_theta_2</strong> (<em>ndarray</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ndarray</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.astrotools.astromodel.AstroModel.compute_chip">
+<span class="sig-name descname"><span class="pre">compute_chip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cos_theta_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cos_theta_2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/astrotools/astromodel.html#AstroModel.compute_chip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.astrotools.astromodel.AstroModel.compute_chip" title="Link to this definition"></a></dt>
+<dd><p>Compute the precessing spin of each binaries.
+:param :
+:type : param m1 (np.1darray): Array containing the masses of the first component.
+:param :
+:type : param m2 (np.1darray): Array containing the masses of the second component.
+:param :
+:type : param chi1 (np.1darray): Array containing the magnitudes of the first components.
+:param :
+:type : param chi2 (np.1darray): Array containing the magnitudes of the second components.
+:param :
+:type : param cos_theta_1 (np.1darray): Array containing the theta cosine of the first components.
+:param :
+:type : param cos_theta_2 (np.1darray): Array containing the theta cosine of the second components.
+:param :
+:type : return (np.1darray): Array with the precessing spin of each binaries.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.astrotools.astromodel.AstroModel.compute_spins">
+<span class="sig-name descname"><span class="pre">compute_spins</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chi1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chi2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">costheta1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">costheta2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/astrotools/astromodel.html#AstroModel.compute_spins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.astrotools.astromodel.AstroModel.compute_spins" title="Link to this definition"></a></dt>
+<dd><p>Compute spins of the two components s_i = chi_i*costheta_i
+:param :
+:type : param chi1 (np.1darray): Array containing the magnitudes of the first components.
+:param :
+:type : param chi2 (np.1darray): Array containing the magnitudes of the second components.
+:param :
+:type : param costheta1 (np.1darray): Array containing the theta cosine of the first components.
+:param :
+:type : param costheta2 (np.1darray): Array containing the theta cosine of the second components.
+:param : components.
+:type : return: tuple containing two np.1darray s1(s2) is the projection on the z axis of the spin for firts(seconds)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chi1</strong> (<em>ndarray</em>)</p></li>
+<li><p><strong>chi2</strong> (<em>ndarray</em>)</p></li>
+<li><p><strong>costheta1</strong> (<em>ndarray</em>)</p></li>
+<li><p><strong>costheta2</strong> (<em>ndarray</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.astrotools.astromodel.AstroModel.generate_spin">
+<span class="sig-name descname"><span class="pre">generate_spin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/astrotools/astromodel.html#AstroModel.generate_spin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.astrotools.astromodel.AstroModel.generate_spin" title="Link to this definition"></a></dt>
+<dd><p>Generate spin magnitude and theta angle from the model set by the user : self.spin_option.
+:param :
+:type : param size (int): size of the catalog.
+:param :
+:type : return: tuple of np.array chi1, chi2, costheta1, costheta2</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>size</strong> (<em>int</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.astrotools.astromodel.AstroModel.load">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/astrotools/astromodel.html#AstroModel.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.astrotools.astromodel.AstroModel.load" title="Link to this definition"></a></dt>
+<dd><p>Loads a previously saved AstroModel instance from a pickle file.
+If the loaded object is a dictionary, it converts it back into an AstroModel instance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.astrotools.astromodel.AstroModel.make_catalog">
+<span class="sig-name descname"><span class="pre">make_catalog</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/astrotools/astromodel.html#AstroModel.make_catalog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.astrotools.astromodel.AstroModel.make_catalog" title="Link to this definition"></a></dt>
+<dd><p>Create a catalog with the appropriate parameters for further calculations.
+The catalog will be named after the parameter <cite>self.name</cite> and saved in the folder <cite>Catalogs/</cite>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.astrotools.astromodel.AstroModel.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/astrotools/astromodel.html#AstroModel.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.astrotools.astromodel.AstroModel.save" title="Link to this definition"></a></dt>
+<dd><p>Saves the current AstroModel instance to a pickle file for later use.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Princess.astrotools.catalogue_generation">
+<span id="catalogue-generation"></span><h2>catalogue_generation<a class="headerlink" href="#module-Princess.astrotools.catalogue_generation" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.astrotools.catalogue_generation.generate_population">
+<span class="sig-name descname"><span class="pre">generate_population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_sources</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'m1_m2'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_distribution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'uniform'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_distribution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'uniform'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mass_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/astrotools/catalogue_generation.html#generate_population"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.astrotools.catalogue_generation.generate_population" title="Link to this definition"></a></dt>
+<dd><p>Generate a binary system population with given distributions.</p>
+<p>Parameters:
+- num_sources (int): Number of binary systems to generate.
+- mass_method (str): ‘m1_m2’ for primary and secondary mass, ‘chirp_q’ for chirp mass and mass ratio.
+- mass_distribution (str): ‘uniform’ or ‘gaussian’ for mass parameters.
+- z_distribution (str): ‘uniform’ or ‘gaussian’ for redshift.
+- mass_params (dict): Parameters for mass distribution.
+- z_params (dict): Parameters for redshift distribution.</p>
+<p>Returns:
+- pd.DataFrame: Generated population.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.astrotools.catalogue_generation.sample_distribution">
+<span class="sig-name descname"><span class="pre">sample_distribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distribution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/astrotools/catalogue_generation.html#sample_distribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.astrotools.catalogue_generation.sample_distribution" title="Link to this definition"></a></dt>
+<dd><p>Generate samples from a given distribution.</p>
+<p>Parameters:
+- distribution (str): Type of distribution (‘uniform’ or ‘gaussian’).
+- size (int): Number of samples.
+- kwargs: Parameters for the chosen distribution.</p>
+<p>Returns:
+- np.array: Generated samples.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.astrotools.catalogue_generation.save_population">
+<span class="sig-name descname"><span class="pre">save_population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/astrotools/catalogue_generation.html#save_population"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.astrotools.catalogue_generation.save_population" title="Link to this definition"></a></dt>
+<dd><p>Save the generated population to a .dat file using Pandas.</p>
+<p>Parameters:
+- population_df (pd.DataFrame): Population data.
+- filename (str): Output file name.</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="pkg-cosmology">
+<h1>Pkg Cosmology<a class="headerlink" href="#pkg-cosmology" title="Link to this heading"></a></h1>
+<section id="module-Princess.cosmology.cosmology">
+<span id="class-cosmology"></span><h2>class cosmology<a class="headerlink" href="#module-Princess.cosmology.cosmology" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Princess.cosmology.cosmology.Cosmology">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Cosmology</span></span><a class="reference internal" href="_modules/Princess/cosmology/cosmology.html#Cosmology"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.cosmology.cosmology.Cosmology" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>)</p></li>
+<li><p><strong>Omega_m</strong> (<em>float</em>)</p></li>
+<li><p><strong>Omega_Lambda</strong> (<em>float</em>)</p></li>
+<li><p><strong>H0</strong> (<em>float</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.cosmology.cosmology.Cosmology.comoving_volume">
+<span class="sig-name descname"><span class="pre">comoving_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/cosmology/cosmology.html#Cosmology.comoving_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.cosmology.cosmology.Cosmology.comoving_volume" title="Link to this definition"></a></dt>
+<dd><p>Compute the comoving volume enclosed within a given redshift.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.cosmology.cosmology.Cosmology.compute_dl">
+<span class="sig-name descname"><span class="pre">compute_dl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z_array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/cosmology/cosmology.html#Cosmology.compute_dl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.cosmology.cosmology.Cosmology.compute_dl" title="Link to this definition"></a></dt>
+<dd><p>Computes the luminosity distance from a redshift array.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.cosmology.cosmology.Cosmology.compute_z">
+<span class="sig-name descname"><span class="pre">compute_z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dl_array</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/cosmology/cosmology.html#Cosmology.compute_z"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.cosmology.cosmology.Cosmology.compute_z" title="Link to this definition"></a></dt>
+<dd><p>Computes the redshift from a luminosity distance array.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.cosmology.cosmology.Cosmology.info">
+<span class="sig-name descname"><span class="pre">info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/cosmology/cosmology.html#Cosmology.info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.cosmology.cosmology.Cosmology.info" title="Link to this definition"></a></dt>
+<dd><p>Display and return the cosmology model information.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.cosmology.cosmology.Cosmology.load">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/cosmology/cosmology.html#Cosmology.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.cosmology.cosmology.Cosmology.load" title="Link to this definition"></a></dt>
+<dd><p>Load an existing model from presets.json or create a new one with default values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model_name</strong> (<em>str</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.cosmology.cosmology.Cosmology.luminosity_distance">
+<span class="sig-name descname"><span class="pre">luminosity_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/cosmology/cosmology.html#Cosmology.luminosity_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.cosmology.cosmology.Cosmology.luminosity_distance" title="Link to this definition"></a></dt>
+<dd><p>Compute the luminosity distance for a given redshift using numerical integration.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.cosmology.cosmology.Cosmology.luminosity_distance_table">
+<span class="sig-name descname"><span class="pre">luminosity_distance_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/cosmology/cosmology.html#Cosmology.luminosity_distance_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.cosmology.cosmology.Cosmology.luminosity_distance_table" title="Link to this definition"></a></dt>
+<dd><p>Generate a table of luminosity distance as a function of redshift.</p>
+<p>If a table for this cosmology already exists, it is not recomputed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.cosmology.cosmology.Cosmology.object_age">
+<span class="sig-name descname"><span class="pre">object_age</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/cosmology/cosmology.html#Cosmology.object_age"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.cosmology.cosmology.Cosmology.object_age" title="Link to this definition"></a></dt>
+<dd><p>Compute the age of an object at a given redshift.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.cosmology.cosmology.Cosmology.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reference_paper</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/cosmology/cosmology.html#Cosmology.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.cosmology.cosmology.Cosmology.save" title="Link to this definition"></a></dt>
+<dd><p>Save the cosmological model in presets.json.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+<section id="pkg-gwtools">
+<h1>Pkg gwtools<a class="headerlink" href="#pkg-gwtools" title="Link to this heading"></a></h1>
+<section id="module-Princess.gwtools.initialization">
+<span id="initialization"></span><h2>initialization<a class="headerlink" href="#module-Princess.gwtools.initialization" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.gwtools.initialization.initialization">
+<span class="sig-name descname"><span class="pre">initialization</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/initialization.html#initialization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.initialization.initialization" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-Princess.gwtools.Detector">
+<span id="class-detectors"></span><h2>class Detectors<a class="headerlink" href="#module-Princess.gwtools.Detector" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Princess.gwtools.Detector.Detector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Detector</span></span><a class="reference internal" href="_modules/Princess/gwtools/Detector.html#Detector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Detector.Detector" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>)</p></li>
+<li><p><strong>configuration</strong> (<em>str</em>)</p></li>
+<li><p><strong>origin</strong> (<em>str</em>)</p></li>
+<li><p><strong>reference</strong> (<em>str</em>)</p></li>
+<li><p><strong>type</strong> (<em>str</em>)</p></li>
+<li><p><strong>psd_file</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.gwtools.Detector.Detector.SNR_source">
+<span class="sig-name descname"><span class="pre">SNR_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mtot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform_approx</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/Detector.html#Detector.SNR_source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Detector.Detector.SNR_source" title="Link to this definition"></a></dt>
+<dd><p>TEST FUNCTION USE ONLY FOR TESTS
+Compute the snr of one specific source, assuming spins are 0 and the best sky location.
+:param :
+:type : param mtot (float): Total mass of the system in Msun.
+:param :
+:type : param z (float): Redshift of the merger.
+:param :
+:type : param q (float): Mass ratio of the system. By convention q&lt;1.
+:param :
+:type : param waveform_approx (str): Waveform to use for the computation of the SNR.
+:param :
+:type : return (snr): Signal-to-noise ration of the soure in the detector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mtot</strong> (<em>float</em>)</p></li>
+<li><p><strong>z</strong> (<em>float</em>)</p></li>
+<li><p><strong>q</strong> (<em>float</em>)</p></li>
+<li><p><strong>waveform_approx</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.gwtools.Detector.Detector.evaluate_performance">
+<span class="sig-name descname"><span class="pre">evaluate_performance</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/Detector.html#Detector.evaluate_performance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Detector.Detector.evaluate_performance" title="Link to this definition"></a></dt>
+<dd><p>Evaluates the trained model’s performance by:
+- Comparing predictions against true SNR values.
+- Generating scatter plots highlighting errors.
+- Saving a performance report.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.gwtools.Detector.Detector.get_psd_file">
+<span class="sig-name descname"><span class="pre">get_psd_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/Detector.html#Detector.get_psd_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Detector.Detector.get_psd_file" title="Link to this definition"></a></dt>
+<dd><p>Get the correct file where to find the Psd</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.gwtools.Detector.Detector.get_psd_pycbc_compatible">
+<span class="sig-name descname"><span class="pre">get_psd_pycbc_compatible</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_dir_psd</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/Detector.html#Detector.get_psd_pycbc_compatible"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Detector.Detector.get_psd_pycbc_compatible" title="Link to this definition"></a></dt>
+<dd><p>This function sets the values for the PSE on the interval of frequency chosen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path_dir_psd</strong> (<em>str</em>) – Path towards the PSD file if the PSD is imported from a file</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.gwtools.Detector.Detector.handle_missing_frequency">
+<span class="sig-name descname"><span class="pre">handle_missing_frequency</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/Detector.html#Detector.handle_missing_frequency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Detector.Detector.handle_missing_frequency" title="Link to this definition"></a></dt>
+<dd><p>Handle the case where frequency information is missing.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.gwtools.Detector.Detector.initialize_detector">
+<span class="sig-name descname"><span class="pre">initialize_detector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_configuration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_reference</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_origin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_psd_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/Detector.html#Detector.initialize_detector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Detector.Detector.initialize_detector" title="Link to this definition"></a></dt>
+<dd><p>Initialize the detector, setting up necessary parameters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.gwtools.Detector.Detector.load">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/Detector.html#Detector.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Detector.Detector.load" title="Link to this definition"></a></dt>
+<dd><p>Load a Detector object from a pickle file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the detector.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded Detector object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#Princess.gwtools.Detector.Detector" title="Princess.gwtools.Detector.Detector">Detector</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.gwtools.Detector.Detector.make_frequency">
+<span class="sig-name descname"><span class="pre">make_frequency</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/Detector.html#Detector.make_frequency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Detector.Detector.make_frequency" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.gwtools.Detector.Detector.make_psd">
+<span class="sig-name descname"><span class="pre">make_psd</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/Detector.html#Detector.make_psd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Detector.Detector.make_psd" title="Link to this definition"></a></dt>
+<dd><p>load the PSD of the detector
+:return (np.1Darray): PSD of the detectors for frequencies corresponding to self.freq.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.gwtools.Detector.Detector.reshape_psd">
+<span class="sig-name descname"><span class="pre">reshape_psd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\t'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">have_header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">have_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/Detector.html#Detector.reshape_psd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Detector.Detector.reshape_psd" title="Link to this definition"></a></dt>
+<dd><p><strong>*UNDER DEVELOPPEMENT*</strong>
+Reshape your psd to fit the Make psd function and write it in a new file in AuxiliaryFiles/PSDs.
+It also uptate the variable psd_file to the new directory.
+:param :
+:type : param delimiter (str): Delimiter used in the original file.
+:param :
+:type : param header (bool): True, if the original file contain an header.
+:param :
+:type : param index (bool): True, if the original file contain an index column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>delimiter</strong> (<em>str</em>)</p></li>
+<li><p><strong>have_header</strong> (<em>bool</em>)</p></li>
+<li><p><strong>have_index</strong> (<em>bool</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.gwtools.Detector.Detector.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/Detector.html#Detector.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Detector.Detector.save" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.gwtools.Detector.Detector.train_model_if_needed">
+<span class="sig-name descname"><span class="pre">train_model_if_needed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/Detector.html#Detector.train_model_if_needed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Detector.Detector.train_model_if_needed" title="Link to this definition"></a></dt>
+<dd><p>Checks if a pre-trained model exists.
+If not, it generates a training dataset, trains a Random Forest model, and evaluates its performance.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Princess.gwtools.Network">
+<span id="class-network"></span><h2>class Network<a class="headerlink" href="#module-Princess.gwtools.Network" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Princess.gwtools.Network.Network">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Network</span></span><a class="reference internal" href="_modules/Princess/gwtools/Network.html#Network"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Network.Network" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>efficiency</strong> (<em>float</em>)</p></li>
+<li><p><strong>SNR_thrs</strong> (<em>float</em>)</p></li>
+<li><p><strong>duration</strong> (<em>float</em>)</p></li>
+<li><p><strong>name</strong> (<em>str</em>)</p></li>
+<li><p><strong>compo</strong> (<em>list</em>)</p></li>
+<li><p><strong>pic_file</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.gwtools.Network.Network.SNR_individual">
+<span class="sig-name descname"><span class="pre">SNR_individual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">astromodel_catalogue</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/Network.html#Network.SNR_individual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Network.Network.SNR_individual" title="Link to this definition"></a></dt>
+<dd><p>Compute the signal-to-noise ratios (SNRs) of each source of a catalogues for the given network.
+:param :
+:type : param astromodel_catalogue (str): Path to a catalogues of binaries
+:param :
+:type : return: SNR (1Darray): Array of the catalogue size containing the SNRs.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.gwtools.Network.Network.get_detectors_attributes">
+<span class="sig-name descname"><span class="pre">get_detectors_attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_detector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/Network.html#Network.get_detectors_attributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Network.Network.get_detectors_attributes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.gwtools.Network.Network.horizon">
+<span class="sig-name descname"><span class="pre">horizon</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">SNR_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'IMRPhenomD'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">150.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/Network.html#Network.horizon"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Network.Network.horizon" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>SNR_threshold</strong> (<em>float</em>)</p></li>
+<li><p><strong>mmin</strong> (<em>float</em>)</p></li>
+<li><p><strong>mmax</strong> (<em>float</em>)</p></li>
+<li><p><strong>waveform</strong> (<em>str</em>)</p></li>
+<li><p><strong>zmax</strong> (<em>float</em>)</p></li>
+<li><p><strong>mratio</strong> (<em>float</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.gwtools.Network.Network.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/Network.html#Network.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Network.Network.load" title="Link to this definition"></a></dt>
+<dd><p>try load self.name.txt</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.gwtools.Network.Network.reshape_pic">
+<span class="sig-name descname"><span class="pre">reshape_pic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delimiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\t'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Header</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/Network.html#Network.reshape_pic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Network.Network.reshape_pic" title="Link to this definition"></a></dt>
+<dd><p>Reshape your psd to fit the Make psd function and write it in a new file in AuxiliaryFiles/PSDs.
+It also uptate the variable psd_file to the new directory.
+:param :
+:type : param delimiter (str): delimiter used in the original file. Default is ‘       ‘.
+:param :
+:type : param Header (bool): True if the original file contain a header. Default is False.
+:param :
+:type : param index (bool): True if the original file contain a column with indexes. Default is False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>delimiter</strong> (<em>str</em>)</p></li>
+<li><p><strong>Header</strong> (<em>bool</em>)</p></li>
+<li><p><strong>index</strong> (<em>bool</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.gwtools.Network.Network.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/Network.html#Network.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.Network.Network.save" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-Princess.gwtools.waveform">
+<span id="waveform"></span><h2>waveform<a class="headerlink" href="#module-Princess.gwtools.waveform" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.gwtools.waveform.GWk_no_ecc_pycbcwf">
+<span class="sig-name descname"><span class="pre">GWk_no_ecc_pycbcwf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">evt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">approx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size_catalogue</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc_option</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'InCat'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">disable_progress_bar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/waveform.html#GWk_no_ecc_pycbcwf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.waveform.GWk_no_ecc_pycbcwf" title="Link to this definition"></a></dt>
+<dd><p>This function calculates the contribution of a binary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>evt</strong> (<em>pandas.Series</em>) – Given event from the re-built catalogue.</p></li>
+<li><p><strong>freq</strong> (<em>numpy.array</em>) – Observed frequency range for the calculation.</p></li>
+<li><p><strong>approx</strong> (<em>str</em>) – Waveform approximant.</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – Index of the event in the catalogue.</p></li>
+<li><p><strong>size_catalogue</strong> (<em>int</em>) – Total number of events in the catalogue.</p></li>
+<li><p><strong>inc_option</strong> (<em>str</em><em>, </em><em>optional</em>) – Inclination handling mode (‘InCat’, ‘Rand’, ‘Optimal’).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>htildSQ</strong> – Contribution of the source to each observed frequency, or 0 if outside range.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.array or int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-Princess.gwtools.snr">
+<span id="snr"></span><h2>snr<a class="headerlink" href="#module-Princess.gwtools.snr" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.gwtools.snr.SNR_catalog">
+<span class="sig-name descname"><span class="pre">SNR_catalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">catalog_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">det_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/snr.html#SNR_catalog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.snr.SNR_catalog" title="Link to this definition"></a></dt>
+<dd><p>Computes the optimal Signal-to-Noise Ratio (SNR) for each event in the catalog
+and saves the updated catalog with additional SNR columns.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>det_list</strong> (<em>list</em>) – List of <cite>Detector</cite> objects used for SNR computation.</p></li>
+<li><p><strong>waveform</strong> (<em>str</em>) – The waveform model used for gravitational wave signal generation.</p></li>
+<li><p><strong>freq</strong> (<em>np.array</em>) – Frequency array used for the SNR computation.</p></li>
+<li><p><strong>catalog_name</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>If an event produces an invalid <cite>htildsq</cite> value, it is logged in an error file.</p></li>
+<li><p>The function modifies and saves the catalog with SNR values for each detector.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.gwtools.snr.SNR_pycbc_catalog">
+<span class="sig-name descname"><span class="pre">SNR_pycbc_catalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">catalog_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">det_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">catalogue_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/snr.html#SNR_pycbc_catalog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.snr.SNR_pycbc_catalog" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>catalog_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>det_list</strong> (<em>list</em>)</p></li>
+<li><p><strong>waveform</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.gwtools.snr.SNR_single">
+<span class="sig-name descname"><span class="pre">SNR_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">det_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">network</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">waveform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'event'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/snr.html#SNR_single"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.snr.SNR_single" title="Link to this definition"></a></dt>
+<dd><p>Computes the optimal Signal-to-Noise Ratio (SNR) for a single event using a list of detectors.</p>
+<p>The function calculates the SNR for each detector in the list and combines them for the given network.
+If requested, the results are saved in a <cite>.dat</cite> file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>event</strong> (<em>dict</em>) – Dictionary containing the event parameters, including ‘m1’, ‘m2’, ‘z’, and ‘Dl’.</p></li>
+<li><p><strong>det_list</strong> (<em>list</em>) – List of <cite>Detector</cite> objects used for SNR computation.</p></li>
+<li><p><strong>network</strong> (<a class="reference internal" href="#Princess.gwtools.Network.Network" title="Princess.gwtools.Network.Network"><em>Network</em></a>) – The network of detectors for combining SNRs.</p></li>
+<li><p><strong>waveform</strong> (<em>str</em>) – The waveform model used for gravitational wave signal generation.</p></li>
+<li><p><strong>freq</strong> (<em>np.array</em>) – Frequency array used for the SNR computation.</p></li>
+<li><p><strong>savefile</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, saves the SNR results to a file (default is False).</p></li>
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the event, used for the output filename (default is ‘event’).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Series containing the combined SNR for the specified network.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.Series</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>If an event produces an invalid <cite>htildsq</cite> value, it is logged in an error file.</p></li>
+<li><p>The function modifies and saves the catalog with SNR values for each detector.</p></li>
+<li><p>The function checks if required keys (‘m1’, ‘m2’, ‘z’, ‘Dl’) are present in the event.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.gwtools.snr.combine_snr_detectors">
+<span class="sig-name descname"><span class="pre">combine_snr_detectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">det_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">net</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SNRs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'event'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/snr.html#combine_snr_detectors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.snr.combine_snr_detectors" title="Link to this definition"></a></dt>
+<dd><p>Combines the SNRs from multiple detectors for a given network.</p>
+<p>The function calculates the optimal and network SNRs by summing the squares of the individual
+detector contributions. A random factor from the factor table is used to simulate different
+configurations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>det_list</strong> (<em>list</em>) – List of <cite>Detector</cite> objects.</p></li>
+<li><p><strong>net</strong> (<em>str</em>) – Name of the network (e.g., ‘HLV’, ‘ET’).</p></li>
+<li><p><strong>SNRs</strong> (<em>pd.DataFrame</em>) – DataFrame containing the individual SNRs for each detector.</p></li>
+<li><p><strong>savefile</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, saves the combined SNR results to a file (default is False).</p></li>
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the event, used for the output filename (default is ‘event’).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Updated DataFrame containing the combined SNRs for the network.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – If ‘factor_table.dat’ is not found in ‘AuxiliaryFiles/’.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>This function uses a factor table to apply configuration-specific corrections.</p></li>
+<li><p>It computes both optimal and realistic SNRs for the network.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.gwtools.snr.compute_SNR_Networks_catalog">
+<span class="sig-name descname"><span class="pre">compute_SNR_Networks_catalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">catalog_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/gwtools/snr.html#compute_SNR_Networks_catalog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.gwtools.snr.compute_SNR_Networks_catalog" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>catalog_name</strong> (<em>str</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+<section id="pkg-stochastic">
+<h1>Pkg stochastic<a class="headerlink" href="#pkg-stochastic" title="Link to this heading"></a></h1>
+<section id="module-Princess.stochastic.background">
+<span id="class-background"></span><h2>class background<a class="headerlink" href="#module-Princess.stochastic.background" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="Princess.stochastic.background.Background">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Background</span></span><a class="reference internal" href="_modules/Princess/stochastic/background.html#Background"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.background.Background" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.stochastic.background.Background.Analysis">
+<span class="sig-name descname"><span class="pre">Analysis</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/background.html#Background.Analysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.background.Background.Analysis" title="Link to this definition"></a></dt>
+<dd><p>Performs the analysis for each astrophysical model catalog.
+Computes Omega at specified frequencies and SNR for each network and its thresholds.
+Updates the analysis dictionary with the results.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.stochastic.background.Background.Analysis_noResidual">
+<span class="sig-name descname"><span class="pre">Analysis_noResidual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Networks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/background.html#Background.Analysis_noResidual"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.background.Background.Analysis_noResidual" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.stochastic.background.Background.Make_Ana_Output">
+<span class="sig-name descname"><span class="pre">Make_Ana_Output</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/background.html#Background.Make_Ana_Output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.background.Background.Make_Ana_Output" title="Link to this definition"></a></dt>
+<dd><p>Initializes the analysis output structure.
+Creates a DataFrame for each catalog, containing results for ‘Total’
+and each network with its respective SNR thresholds.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.stochastic.background.Background.Network_list">
+<span class="sig-name descname"><span class="pre">Network_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/background.html#Background.Network_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.background.Background.Network_list" title="Link to this definition"></a></dt>
+<dd><p>Initializes the network list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.stochastic.background.Background.Omega">
+<span class="sig-name descname"><span class="pre">Omega</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Networks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/background.html#Background.Omega"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.background.Background.Omega" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.stochastic.background.Background.Omega_ecc">
+<span class="sig-name descname"><span class="pre">Omega_ecc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cat</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/background.html#Background.Omega_ecc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.background.Background.Omega_ecc" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.stochastic.background.Background.Omega_pycbc">
+<span class="sig-name descname"><span class="pre">Omega_pycbc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/background.html#Background.Omega_pycbc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.background.Background.Omega_pycbc" title="Link to this definition"></a></dt>
+<dd><p>Computes the Omega function using the pycbc waveform model for all events in the AstroModel catalogs.
+Saves the results in the appropriate results folder.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.stochastic.background.Background.Write_results">
+<span class="sig-name descname"><span class="pre">Write_results</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/background.html#Background.Write_results"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.background.Background.Write_results" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Princess.stochastic.background.Background.compute_Omega">
+<span class="sig-name descname"><span class="pre">compute_Omega</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/background.html#Background.compute_Omega"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.background.Background.compute_Omega" title="Link to this definition"></a></dt>
+<dd><p>Initializes the network list and computes Omega using pycbc only once if applicable.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.stochastic.background.process_background_computation">
+<span class="sig-name descname"><span class="pre">process_background_computation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/background.html#process_background_computation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.background.process_background_computation" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-Princess.stochastic.snr">
+<span id="background-snr"></span><h2>background snr<a class="headerlink" href="#module-Princess.stochastic.snr" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.stochastic.snr.SNR_Net_wf">
+<span class="sig-name descname"><span class="pre">SNR_Net_wf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Net</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/snr.html#SNR_Net_wf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.snr.SNR_Net_wf" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.stochastic.snr.SNR_Omega">
+<span class="sig-name descname"><span class="pre">SNR_Omega</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Networks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/snr.html#SNR_Omega"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.snr.SNR_Omega" title="Link to this definition"></a></dt>
+<dd><p>Calculate the SNR of a given spectrum Omega for each Network in Networks.
+Assuming one year of detection with a duty-cycle (ie. efficiency) of 0.5</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.stochastic.snr.SNR_bkg">
+<span class="sig-name descname"><span class="pre">SNR_bkg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">freq_omg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Network</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/snr.html#SNR_bkg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.snr.SNR_bkg" title="Link to this definition"></a></dt>
+<dd><p>Computes the signal-to-noise ratio (SNR) for a stochastic gravitational wave background.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>freq_omg</strong> (<em>numpy.ndarray</em>) – Array of input frequencies for Omega.</p></li>
+<li><p><strong>Omega</strong> (<em>numpy.ndarray</em>) – Normalized spectral energy density of the stochastic background.</p></li>
+<li><p><strong>Network</strong> (<em>object</em>) – Detector network containing frequency and composition information.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Computed SNR value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.stochastic.snr.SNR_bkg_1det">
+<span class="sig-name descname"><span class="pre">SNR_bkg_1det</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">freq_omg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Network</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/snr.html#SNR_bkg_1det"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.snr.SNR_bkg_1det" title="Link to this definition"></a></dt>
+<dd><p>Old function for SNR background computation
+:param freq_omg:
+:param Omega:
+:param Network:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.stochastic.snr.SNR_bkgtrash">
+<span class="sig-name descname"><span class="pre">SNR_bkgtrash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">freq_omg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Network</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/snr.html#SNR_bkgtrash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.snr.SNR_bkgtrash" title="Link to this definition"></a></dt>
+<dd><p>Old function to compute the background
+:param freq_omg:
+:param Omega:
+:param Network:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.stochastic.snr.SNR_run">
+<span class="sig-name descname"><span class="pre">SNR_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">SNR_0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SNR_year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tstart</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/snr.html#SNR_run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.snr.SNR_run" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>SNR_0</strong> – Starting SNR (SNR at the end of a previous run for example)</p></li>
+<li><p><strong>SNR_year</strong> – SNR for one year of observation (careful to know what the duty-cycle is at this point)</p></li>
+<li><p><strong>duration</strong> – duration of the run in yr</p></li>
+<li><p><strong>tstart</strong> – starting time</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dataframe with two columns ‘Time’ and ‘SNR’</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.stochastic.snr.SNRwf">
+<span class="sig-name descname"><span class="pre">SNRwf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cat_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/snr.html#SNRwf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.snr.SNRwf" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-Princess.stochastic.utils">
+<span id="utils"></span><h2>utils<a class="headerlink" href="#module-Princess.stochastic.utils" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.stochastic.utils.Compute_constant">
+<span class="sig-name descname"><span class="pre">Compute_constant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/utils.html#Compute_constant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.utils.Compute_constant" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.stochastic.utils.Cst_snr_bkg">
+<span class="sig-name descname"><span class="pre">Cst_snr_bkg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/utils.html#Cst_snr_bkg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.utils.Cst_snr_bkg" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.stochastic.utils.Search_Omg">
+<span class="sig-name descname"><span class="pre">Search_Omg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/utils.html#Search_Omg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.utils.Search_Omg" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.stochastic.utils.rho_c">
+<span class="sig-name descname"><span class="pre">rho_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">H0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/stochastic/utils.html#rho_c"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.stochastic.utils.rho_c" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+<section id="module-Princess.Run">
+<span id="run"></span><h1>Run<a class="headerlink" href="#module-Princess.Run" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.Run.Make_param_file">
+<span class="sig-name descname"><span class="pre">Make_param_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">getting_started_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Princess/Run/getting_started.py'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">advanced_params_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Princess/Run/advanced_params.py'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params_file_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/Run/settings.html#Make_param_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.Run.Make_param_file" title="Link to this definition"></a></dt>
+<dd><p>Generate Params.json, to gather all the parameters set in getting_started.py and advanced_params.py</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.Run.clean">
+<span class="sig-name descname"><span class="pre">clean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/Run/settings.html#clean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.Run.clean" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.Run.make_params_template">
+<span class="sig-name descname"><span class="pre">make_params_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/Run/settings.html#make_params_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.Run.make_params_template" title="Link to this definition"></a></dt>
+<dd><p>Copy getting_started.py and advanced_params.py in path</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="Princess.Run.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_projectFolder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_paramDictionnary</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_advParamDictionnary</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params_file_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Princess/Run/settings.html#set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Princess.Run.set" title="Link to this definition"></a></dt>
+<dd><p>Save parameters in Params.json, and update the value of PARAMS_FILE</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Princess’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Carole Périgois.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

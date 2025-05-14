@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Princess.stochastic.background &mdash; Princess 0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=7026087e"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Princess
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html">Pkg astrotools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#pkg-cosmology">Pkg Cosmology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#pkg-gwtools">Pkg gwtools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#pkg-stochastic">Pkg stochastic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#module-Princess.Run">Run</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Princess</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Princess.stochastic.background</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Princess.stochastic.background</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Princess.gwtools.waveform</span><span class="w"> </span><span class="kn">import</span> <span class="n">GWk_no_ecc_pycbcwf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Princess.astrotools.astromodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">AstroModel</span> <span class="k">as</span> <span class="n">AM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Princess.gwtools.Detector</span><span class="w"> </span><span class="kn">import</span> <span class="n">Detector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Princess.gwtools.Network</span><span class="w"> </span><span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Princess.stochastic.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Search_Omg</span><span class="p">,</span> <span class="n">Compute_constant</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Princess.cosmology.cosmology</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cosmology</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Princess.stochastic.snr</span><span class="w"> </span><span class="kn">import</span> <span class="n">SNR_Omega</span><span class="p">,</span> <span class="n">SNR_bkg</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Princess.Run.settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">PARAMS_FILE</span>
+
+<span class="c1"># Check PARAMS_FILE value</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">PARAMS_FILE</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">PARAMS_FILE</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The file parameter </span><span class="si">{</span><span class="n">PARAMS_FILE</span><span class="si">}</span><span class="s2"> is missing,. Execute Run.settings.Make_params_file() first.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Charge le fichier de paramètres</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">PARAMS_FILE</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<div class="viewcode-block" id="process_background_computation">
+<a class="viewcode-back" href="../../../doc.html#Princess.stochastic.background.process_background_computation">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">process_background_computation</span><span class="p">():</span>
+    <span class="c1"># Compute background and analysis</span>
+
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;Run/&#39;</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/Results&quot;</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s1">&#39;Run/&#39;</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/Results&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;Run/&#39;</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/Results/Omega/&quot;</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s1">&#39;Run/&#39;</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/Results/Omega&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">astomodel</span> <span class="ow">in</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;astro_model_list&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">Zelda</span> <span class="o">=</span> <span class="n">Background</span><span class="p">(</span><span class="n">astromodel</span><span class="o">=</span><span class="n">AM</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="n">astomodel</span><span class="p">))</span>
+        <span class="n">Zelda</span><span class="o">.</span><span class="n">Network_list</span><span class="p">()</span>
+        <span class="n">Zelda</span><span class="o">.</span><span class="n">Make_Ana_Output</span><span class="p">()</span>
+        <span class="n">Zelda</span><span class="o">.</span><span class="n">compute_Omega</span><span class="p">()</span>
+        <span class="n">Zelda</span><span class="o">.</span><span class="n">Analysis</span><span class="p">()</span>
+        <span class="n">Zelda</span><span class="o">.</span><span class="n">Write_results</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="Background">
+<a class="viewcode-back" href="../../../doc.html#Princess.stochastic.background.Background">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Background</span><span class="p">:</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">astromodel</span><span class="p">,</span> <span class="n">inclination</span> <span class="o">=</span> <span class="s1">&#39;Optimal&#39;</span><span class="p">,</span> <span class="n">Omega_ana_freq</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">25</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an instance of your calculations parameters.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        Freq : np.array</span>
+<span class="sd">            Frequency band of the caclulation</span>
+<span class="sd">        Omega_ana_freq : list of float</span>
+<span class="sd">            Frequency of reference for the built of analysis file</span>
+<span class="sd">        Network: np.array of Networks class type</span>
+<span class="sd">            For which Network is done the calculation</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#self.dict_Networks = {  }</span>
+        <span class="c1">#for key in Neworks.keys() :</span>
+        <span class="c1">#    self.dict_Networks[key] = Network(name = key, compo = Networks[key][0] , pic_file = Networks[key][1], freq = Networks[key][2], efficiency = Networks[key][3], SNR_thrs =Networks[key][4] )</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">Omega_ana_freq</span> <span class="o">=</span> <span class="n">Omega_ana_freq</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inclination</span> <span class="o">=</span> <span class="n">inclination</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">astromodel</span> <span class="o">=</span> <span class="n">astromodel</span>
+
+<div class="viewcode-block" id="Background.Make_Ana_Output">
+<a class="viewcode-back" href="../../../doc.html#Princess.stochastic.background.Background.Make_Ana_Output">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Make_Ana_Output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the analysis output structure.</span>
+<span class="sd">        Creates a DataFrame for each catalog, containing results for &#39;Total&#39;</span>
+<span class="sd">        and each network with its respective SNR thresholds.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">output_index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;N_source&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;Omg_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">_Hz&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Omega_ana_freq</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;SNR_Total&#39;</span><span class="p">,</span> <span class="s1">&#39;SNR_Residual&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">anadict</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">astromodel</span><span class="o">.</span><span class="n">catalogs</span><span class="p">:</span>
+            <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">]</span>
+
+            <span class="c1"># Add network names and their respective thresholds</span>
+            <span class="k">for</span> <span class="n">network</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">net_list_GB</span><span class="p">:</span>
+                <span class="n">columns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">columns</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">network</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">_thrs_</span><span class="si">{</span><span class="n">thr</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">thr</span> <span class="ow">in</span> <span class="n">network</span><span class="o">.</span><span class="n">SNR_thrs</span><span class="p">])</span>
+
+            <span class="c1"># Create DataFrame with specified index and columns</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">anadict</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">output_index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Background.Write_results">
+<a class="viewcode-back" href="../../../doc.html#Princess.stochastic.background.Background.Write_results">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Write_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="p">:</span>
+        <span class="n">check_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;Run/&#39;</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/Results/Analysis/&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_file</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s1">&#39;Run/&#39;</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/Results/Analysis/&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">astromodel</span><span class="o">.</span><span class="n">catalogs</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">anadict</span><span class="p">[</span><span class="n">cat</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Results/Analysis/&#39;</span> <span class="o">+</span> <span class="n">cat</span><span class="p">)</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;Run/&#39;</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/Results/Analysis/&quot;</span> <span class="o">+</span> <span class="n">cat</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Background.Network_list">
+<a class="viewcode-back" href="../../../doc.html#Princess.stochastic.background.Background.Network_list">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Network_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Initializes the network list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">net_list_GB</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">net</span> <span class="ow">in</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;network_list&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">network</span> <span class="o">=</span> <span class="n">Network</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">net</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">network</span><span class="o">.</span><span class="n">type</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;LISA&#39;</span><span class="p">,</span> <span class="s1">&#39;PTA&#39;</span><span class="p">]:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Princess not ready for this computation&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">net_list_GB</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">network</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Background.compute_Omega">
+<a class="viewcode-back" href="../../../doc.html#Princess.stochastic.background.Background.compute_Omega">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_Omega</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the network list and computes Omega using pycbc only once if applicable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Ensure Omega_pycbc is only executed if there is at least one valid network</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">net_list_GB</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">Omega_pycbc</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Background.Omega_ecc">
+<a class="viewcode-back" href="../../../doc.html#Princess.stochastic.background.Background.Omega_ecc">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Omega_ecc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cat</span><span class="p">):</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Catalogs/&#39;</span><span class="o">+</span><span class="n">cat</span><span class="p">,</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index_col</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">)</span>
+        <span class="n">check_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;Results/Omega_e0/&#39;</span> <span class="o">+</span> <span class="n">cat</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_file</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">Omega</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;f&#39;</span><span class="p">:</span><span class="n">Freq</span><span class="p">,</span> <span class="s1">&#39;Total&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Freq</span><span class="p">))})</span>
+            <span class="n">Omega_e0</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;f&#39;</span><span class="p">:</span><span class="n">Freq</span><span class="p">,</span> <span class="s1">&#39;Total&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Freq</span><span class="p">))})</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Networks</span> <span class="p">:</span>
+                <span class="n">Omega</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Freq</span><span class="p">))</span>
+                <span class="n">Omega_e0</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Freq</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Mc&#39;</span><span class="p">]))</span> <span class="p">:</span>
+                <span class="n">evt</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="p">[</span> <span class="n">evt</span><span class="p">[</span><span class="s1">&#39;Mc&#39;</span><span class="p">],</span> <span class="n">evt</span><span class="p">[</span><span class="s1">&#39;q&#39;</span><span class="p">],</span> <span class="n">evt</span><span class="p">[</span><span class="s1">&#39;Xsi&#39;</span><span class="p">],</span> <span class="n">evt</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">],</span> <span class="n">evt</span><span class="p">[</span><span class="s1">&#39;zf&#39;</span><span class="p">],</span> <span class="n">evt</span><span class="p">[</span><span class="s1">&#39;a0&#39;</span><span class="p">],</span> <span class="n">evt</span><span class="p">[</span><span class="s1">&#39;e0&#39;</span><span class="p">]</span> <span class="p">]</span>
+                <span class="n">Omg</span><span class="p">,</span> <span class="n">Omg_e0</span> <span class="o">=</span> <span class="n">GWk</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">co_type</span><span class="p">,</span> <span class="mi">0</span> <span class="p">)</span>
+                <span class="n">Omega</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">Omg</span>
+                <span class="n">Omega_e0</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">Omg_e0</span>
+                <span class="k">for</span> <span class="n">N</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Networks</span> <span class="p">:</span>
+                    <span class="k">if</span> <span class="n">evt</span><span class="p">[</span><span class="n">N</span><span class="p">]</span><span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">SNR_thrs</span><span class="p">[</span><span class="n">N</span><span class="p">]</span> <span class="p">:</span>
+                        <span class="n">Omega</span><span class="p">[</span><span class="n">N</span><span class="p">]</span> <span class="o">+=</span> <span class="n">Omg</span>
+                        <span class="n">Omega_e0</span><span class="p">[</span><span class="n">N</span><span class="p">]</span> <span class="o">+=</span> <span class="n">Omg_e0</span>
+            <span class="n">Omega</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;Results/Omega/&#39;</span><span class="o">+</span><span class="n">path</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">Omega_e0</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;Results/Omega_e0/&#39;</span><span class="o">+</span><span class="n">path</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">Omega_e0</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Results/Omega_e0/&#39;</span><span class="o">+</span><span class="n">path</span><span class="p">,</span> <span class="n">index_col</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">check_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;Results/Analysis/&#39;</span> <span class="o">+</span> <span class="n">path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_file</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">output_index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;N_source&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;Omg_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_Hz&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Omega_ana_freq</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;SNR&#39;</span><span class="p">]</span>
+            <span class="n">Ana</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">output_index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Networks</span><span class="p">)</span>
+            <span class="n">Ana</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">][</span><span class="s1">&#39;N_source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">Ana</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">][[</span><span class="s1">&#39;Omg_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_Hz&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Omega_ana_freq</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Search_Omg</span><span class="p">(</span><span class="n">Omega_e0</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">Omega_ana_freq</span><span class="p">)</span>
+            <span class="n">Ana</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">][</span><span class="s1">&#39;SNR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SNR_Omega</span><span class="p">(</span><span class="n">Omega_e0</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">N</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Networks</span><span class="p">)):</span>
+                <span class="n">Ana</span><span class="p">[</span><span class="n">Networks</span><span class="p">[</span><span class="n">N</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">][[</span><span class="s1">&#39;Omg_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_Hz&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Omega_ana_freq</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Search_Omg</span><span class="p">(</span><span class="n">Omega_e0</span><span class="p">[</span><span class="n">Networks</span><span class="p">[</span><span class="n">N</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">Omega_ana_freq</span><span class="p">)</span>
+                <span class="n">Ana</span><span class="p">[</span><span class="n">N</span><span class="p">][</span><span class="s1">&#39;SNR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SNR_Omega</span><span class="p">(</span><span class="n">Omega_e0</span><span class="p">[</span><span class="n">Networks</span><span class="p">[</span><span class="n">N</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">],</span><span class="n">N</span><span class="p">)</span>
+                <span class="n">residual</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">N</span><span class="p">]</span><span class="o">&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">SNR_thrs</span><span class="p">[</span><span class="n">N</span><span class="p">]]</span>
+                <span class="n">Ana</span><span class="p">[</span><span class="n">N</span><span class="p">][</span><span class="s1">&#39;Nsource&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">residual</span><span class="p">[</span><span class="n">N</span><span class="p">])</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">Ana</span><span class="p">[</span><span class="n">N</span><span class="p">])</span>
+            <span class="n">Ana</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;Results/Analysis/&#39;</span><span class="o">+</span><span class="n">path</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Background.Analysis">
+<a class="viewcode-back" href="../../../doc.html#Princess.stochastic.background.Background.Analysis">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Performs the analysis for each astrophysical model catalog.</span>
+<span class="sd">        Computes Omega at specified frequencies and SNR for each network and its thresholds.</span>
+<span class="sd">        Updates the analysis dictionary with the results.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">project_folder</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">cat</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">astromodel</span><span class="o">.</span><span class="n">catalogs</span><span class="p">:</span>
+            <span class="c1"># Load Omega data</span>
+            <span class="n">omega_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Run/</span><span class="si">{</span><span class="n">project_folder</span><span class="si">}</span><span class="s1">/Results/Omega/</span><span class="si">{</span><span class="n">cat</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="n">Omega_e0</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">omega_path</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Retrieve the analysis dictionary for the catalog</span>
+            <span class="n">Ana</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">anadict</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span>
+
+            <span class="c1"># Compute Omega values at specified reference frequencies for &#39;Total&#39;</span>
+            <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Omega_ana_freq</span><span class="p">:</span>
+                <span class="n">Ana</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">][</span><span class="sa">f</span><span class="s1">&#39;Omg_</span><span class="si">{</span><span class="n">freq</span><span class="si">}</span><span class="s1">_Hz&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Search_Omg</span><span class="p">(</span>
+                    <span class="n">Freq</span><span class="o">=</span><span class="n">Omega_e0</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">],</span> <span class="n">Omega</span><span class="o">=</span><span class="n">Omega_e0</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">],</span> <span class="n">freq_ref</span><span class="o">=</span><span class="n">freq</span>
+                <span class="p">)</span>
+
+            <span class="c1"># Process each network in the analysis</span>
+            <span class="k">for</span> <span class="n">network</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">net_list_GB</span><span class="p">:</span>
+                <span class="c1"># Compute the total SNR for the network</span>
+                <span class="n">SNR_network_total</span> <span class="o">=</span> <span class="n">SNR_bkg</span><span class="p">(</span><span class="n">Omega_e0</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">],</span> <span class="n">Omega_e0</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">],</span> <span class="n">network</span><span class="p">)</span>
+
+                <span class="c1"># Process each SNR threshold for the network</span>
+                <span class="k">for</span> <span class="n">thrs</span> <span class="ow">in</span> <span class="n">network</span><span class="o">.</span><span class="n">SNR_thrs</span><span class="p">:</span>
+                    <span class="n">column_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">network</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">_thrs_</span><span class="si">{</span><span class="n">thrs</span><span class="si">}</span><span class="s1">&#39;</span>
+
+                    <span class="c1"># Compute Omega values at specified frequencies for each threshold</span>
+                    <span class="k">for</span> <span class="n">freq</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Omega_ana_freq</span><span class="p">:</span>
+                        <span class="n">Ana</span><span class="p">[</span><span class="n">column_name</span><span class="p">][</span><span class="sa">f</span><span class="s1">&#39;Omg_</span><span class="si">{</span><span class="n">freq</span><span class="si">}</span><span class="s1">_Hz&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Search_Omg</span><span class="p">(</span>
+                            <span class="n">Freq</span><span class="o">=</span><span class="n">Omega_e0</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">],</span> <span class="n">Omega</span><span class="o">=</span><span class="n">Omega_e0</span><span class="p">[</span><span class="n">column_name</span><span class="p">],</span> <span class="n">freq_ref</span><span class="o">=</span><span class="n">freq</span>
+                        <span class="p">)</span>
+
+                    <span class="c1"># Compute residual and total SNR for the network at the threshold</span>
+                    <span class="n">Ana</span><span class="p">[</span><span class="n">column_name</span><span class="p">][</span><span class="s1">&#39;SNR_Residual&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SNR_bkg</span><span class="p">(</span><span class="n">Omega_e0</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">],</span> <span class="n">Omega_e0</span><span class="p">[</span><span class="n">column_name</span><span class="p">],</span> <span class="n">network</span><span class="p">)</span>
+                    <span class="n">Ana</span><span class="p">[</span><span class="n">column_name</span><span class="p">][</span><span class="s1">&#39;SNR_Total&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SNR_network_total</span>
+
+            <span class="c1"># Save the updated analysis dictionary</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">anadict</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ana</span></div>
+
+
+<div class="viewcode-block" id="Background.Analysis_noResidual">
+<a class="viewcode-back" href="../../../doc.html#Princess.stochastic.background.Background.Analysis_noResidual">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Analysis_noResidual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Networks</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">astromodel</span><span class="o">.</span><span class="n">catalogs</span><span class="p">)):</span>
+            <span class="n">cat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">astromodel</span><span class="o">.</span><span class="n">catalogs</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
+            <span class="n">Omega_e0</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Run/&#39;</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;/Results/Omega/&quot;</span> <span class="o">+</span> <span class="n">cat</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">Ana</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">anadict</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Omega_ana_freq</span><span class="p">:</span>
+                <span class="n">Ana</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">][</span><span class="s1">&#39;Omg_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_Hz&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Search_Omg</span><span class="p">(</span><span class="n">Freq</span><span class="o">=</span><span class="n">Omega_e0</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">],</span> <span class="n">Omega</span><span class="o">=</span><span class="n">Omega_e0</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">],</span>
+                                                                      <span class="n">freq_ref</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">N</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Networks</span><span class="p">)):</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">Omega_ana_freq</span><span class="p">:</span>
+                    <span class="n">Ana</span><span class="p">[</span><span class="n">Networks</span><span class="p">[</span><span class="n">N</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;Omg_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_Hz&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Search_Omg</span><span class="p">(</span><span class="n">Freq</span><span class="o">=</span><span class="n">Omega_e0</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">],</span>
+                                                                                   <span class="n">Omega</span><span class="o">=</span><span class="n">Omega_e0</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">],</span>
+                                                                                   <span class="n">freq_ref</span><span class="o">=</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">Ana</span><span class="p">[</span><span class="n">Networks</span><span class="p">[</span><span class="n">N</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">][</span><span class="s1">&#39;SNR_Total&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">SNR_bkg</span><span class="p">(</span><span class="n">Omega_e0</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">],</span> <span class="n">Omega_e0</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">],</span> <span class="n">Networks</span><span class="p">[</span><span class="n">N</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">anadict</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span> <span class="o">=</span> <span class="n">Ana</span></div>
+
+
+<div class="viewcode-block" id="Background.Omega">
+<a class="viewcode-back" href="../../../doc.html#Princess.stochastic.background.Background.Omega">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Omega</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cat</span><span class="p">,</span> <span class="n">Freq</span><span class="p">,</span> <span class="n">Networks</span><span class="p">):</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;Catalogs/&#39;</span><span class="o">+</span><span class="n">cat</span><span class="p">,</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index_col</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">)</span>
+        <span class="n">check_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;Results/Omega_e0/&#39;</span> <span class="o">+</span> <span class="n">cat</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">check_file</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">Omega_e0</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;f&#39;</span><span class="p">:</span><span class="n">Freq</span><span class="p">,</span> <span class="s1">&#39;Total&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Freq</span><span class="p">))})</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Networks</span><span class="p">))</span> <span class="p">:</span>
+                <span class="n">Omega_e0</span><span class="p">[</span><span class="n">Networks</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Freq</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">orbit_evo</span> <span class="o">==</span> <span class="kc">False</span> <span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Mc&#39;</span><span class="p">])):</span>
+                    <span class="n">evt</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">evt</span><span class="p">[</span><span class="s1">&#39;Mc&#39;</span><span class="p">],</span> <span class="n">evt</span><span class="p">[</span><span class="s1">&#39;q&#39;</span><span class="p">],</span> <span class="p">(</span><span class="n">evt</span><span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">evt</span><span class="p">[</span><span class="s1">&#39;s1&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">evt</span><span class="p">[</span><span class="s1">&#39;m2&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">evt</span><span class="p">[</span><span class="s1">&#39;s2&#39;</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">evt</span><span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">]</span><span class="o">+</span><span class="n">evt</span><span class="p">[</span><span class="s1">&#39;m2&#39;</span><span class="p">]),</span> <span class="n">evt</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]]</span>
+                    <span class="n">Omg_e0</span> <span class="o">=</span> <span class="n">GWk_noEcc</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">co_type</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="n">Omega_e0</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">Omg_e0</span>
+                    <span class="k">for</span> <span class="n">N</span> <span class="ow">in</span> <span class="n">Networks</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">evt</span><span class="p">[</span><span class="n">N</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">SNR_thrs</span><span class="p">[</span><span class="n">N</span><span class="p">]:</span>
+                            <span class="n">Omega_e0</span><span class="p">[</span><span class="n">N</span><span class="p">]</span> <span class="o">+=</span> <span class="n">Omg_e0</span>
+            <span class="n">Omega_e0</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;Results/Omega_e0/&#39;</span> <span class="o">+</span> <span class="n">cat</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Background.Omega_pycbc">
+<a class="viewcode-back" href="../../../doc.html#Princess.stochastic.background.Background.Omega_pycbc">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Omega_pycbc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the Omega function using the pycbc waveform model for all events in the AstroModel catalogs.</span>
+<span class="sd">        Saves the results in the appropriate results folder.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Load factor table</span>
+        <span class="n">fd_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./AuxiliaryFiles/factor_table.dat&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Define frequency range and waveform type</span>
+        <span class="n">Freq_GB</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">)</span>
+        <span class="n">waveform</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;detector_params&#39;</span><span class="p">][</span><span class="s1">&#39;types&#39;</span><span class="p">][</span><span class="s1">&#39;3G&#39;</span><span class="p">][</span><span class="s1">&#39;waveform&#39;</span><span class="p">]</span>
+        <span class="n">project_folder</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;name_of_project_folder&quot;</span><span class="p">]</span>
+
+        <span class="c1"># Load all networks once</span>
+        <span class="n">networks</span> <span class="o">=</span> <span class="p">{</span><span class="n">network</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">network</span> <span class="k">for</span> <span class="n">network</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">net_list_GB</span><span class="p">}</span>
+
+        <span class="c1"># Compute background constant</span>
+        <span class="n">cosmology</span> <span class="o">=</span> <span class="n">Cosmology</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Cosmo_model&#39;</span><span class="p">])</span>
+        <span class="n">cosmology</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+        <span class="n">Bkg_cst</span> <span class="o">=</span> <span class="n">Compute_constant</span><span class="p">(</span><span class="n">cosmology</span><span class="o">.</span><span class="n">H0</span><span class="p">)</span>
+
+        <span class="c1"># Process each catalog</span>
+        <span class="k">for</span> <span class="n">cat_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">astromodel</span><span class="o">.</span><span class="n">catalogs</span><span class="p">:</span>
+            <span class="n">catalog_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;./Run/</span><span class="si">{</span><span class="n">project_folder</span><span class="si">}</span><span class="s1">/Astro_Models/Catalogs/</span><span class="si">{</span><span class="n">cat_path</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="n">Cat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">catalog_path</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Ensure that self.anadict[cat_path] is a dictionary</span>
+            <span class="k">if</span> <span class="n">cat_path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">anadict</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">anadict</span><span class="p">[</span><span class="n">cat_path</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">anadict</span><span class="p">[</span><span class="n">cat_path</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Total&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;N_source&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">Cat</span><span class="o">.</span><span class="n">z</span><span class="p">)}}</span>
+            <span class="n">Ana</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">anadict</span><span class="p">[</span><span class="n">cat_path</span><span class="p">]</span>
+
+            <span class="c1"># Initialize Omega dataframe</span>
+            <span class="n">Omega_e0</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="n">Freq_GB</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">})</span>
+            <span class="n">Omega_e0</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">Freq_GB</span><span class="p">)</span>
+
+            <span class="c1"># Initialize Omega and source counts for each network and its thresholds</span>
+            <span class="k">for</span> <span class="n">network_name</span><span class="p">,</span> <span class="n">network</span> <span class="ow">in</span> <span class="n">networks</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="c1">#                network = NET.load(name = network_name)</span>
+                <span class="k">for</span> <span class="n">snr_thr</span> <span class="ow">in</span> <span class="n">network</span><span class="o">.</span><span class="n">SNR_thrs</span><span class="p">:</span>
+                    <span class="n">threshold_col</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">network</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_thrs_</span><span class="si">{</span><span class="n">snr_thr</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="n">Omega_e0</span><span class="p">[</span><span class="n">threshold_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">Freq_GB</span><span class="p">)</span>
+                    <span class="n">Ana</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">threshold_col</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;N_source&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+
+            <span class="c1"># Process each event in the catalog</span>
+            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">Cat</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                <span class="c1"># Set inclination</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inclination</span> <span class="o">==</span> <span class="s1">&#39;Rand&#39;</span><span class="p">:</span>
+                    <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">fd_table</span><span class="p">))</span>
+                    <span class="n">event</span><span class="p">[</span><span class="s1">&#39;inc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">fd_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;inc&#39;</span><span class="p">])</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">inclination</span> <span class="o">==</span> <span class="s1">&#39;Optimal&#39;</span><span class="p">:</span>
+                    <span class="n">event</span><span class="p">[</span><span class="s1">&#39;inc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid inclination value. Must be &#39;Rand&#39; or &#39;Optimal&#39;.&quot;</span><span class="p">)</span>
+
+                <span class="c1"># Compute Omega for the event</span>
+                <span class="n">Omg_e0</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">GWk_no_ecc_pycbcwf</span><span class="p">(</span>
+                            <span class="n">evt</span><span class="o">=</span><span class="n">event</span><span class="p">,</span>
+                            <span class="n">freq</span><span class="o">=</span><span class="n">Freq_GB</span><span class="p">,</span>
+                            <span class="n">approx</span><span class="o">=</span><span class="n">waveform</span><span class="p">,</span>
+                            <span class="n">n</span><span class="o">=</span><span class="n">event</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                            <span class="n">size_catalogue</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">Cat</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+                        <span class="p">)</span>
+                        <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">Freq_GB</span> <span class="o">-</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">)</span>
+                        <span class="o">*</span> <span class="n">Bkg_cst</span>
+                        <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">astromodel</span><span class="o">.</span><span class="n">duration</span>
+                <span class="p">)</span>
+                <span class="n">Omega_e0</span><span class="p">[</span><span class="s1">&#39;Total&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">Omg_e0</span>
+
+                <span class="c1"># Compute SNR for each network</span>
+                <span class="k">for</span> <span class="n">network_name</span><span class="p">,</span> <span class="n">network</span> <span class="ow">in</span> <span class="n">networks</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">SNR</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Initialize SNR</span>
+
+                    <span class="k">if</span> <span class="n">network_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">event</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">network</span><span class="o">.</span><span class="n">compo</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                            <span class="n">detector</span> <span class="o">=</span> <span class="n">Detector</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+                            <span class="n">conf</span> <span class="o">=</span> <span class="n">detector</span><span class="o">.</span><span class="n">configuration</span>
+                            <span class="n">fd</span> <span class="o">=</span> <span class="n">fd_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">conf</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inclination</span> <span class="o">==</span> <span class="s1">&#39;Rand&#39;</span> <span class="k">else</span> <span class="mi">1</span>
+                            <span class="n">SNR</span> <span class="o">+=</span> <span class="n">event</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">*</span> <span class="n">fd</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">SNR</span> <span class="o">=</span> <span class="n">event</span><span class="p">[</span><span class="n">network_name</span><span class="p">]</span>
+
+                    <span class="c1"># Check threshold levels</span>
+                    <span class="k">for</span> <span class="n">snr_thr</span> <span class="ow">in</span> <span class="n">network</span><span class="o">.</span><span class="n">SNR_thrs</span><span class="p">:</span>
+                        <span class="n">col_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">network_name</span><span class="si">}</span><span class="s2">_thrs_</span><span class="si">{</span><span class="n">snr_thr</span><span class="si">}</span><span class="s2">&quot;</span>
+
+                        <span class="k">if</span> <span class="n">SNR</span> <span class="o">&lt;</span> <span class="n">snr_thr</span><span class="p">:</span>
+                            <span class="n">Ana</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">col_name</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                                <span class="p">{</span><span class="s1">&#39;N_source&#39;</span><span class="p">:</span> <span class="n">Ana</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">col_name</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;N_source&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">})</span>
+
+                            <span class="k">if</span> <span class="n">col_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">Omega_e0</span><span class="p">:</span>
+                                <span class="n">Omega_e0</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">Freq_GB</span><span class="p">)</span>
+
+                            <span class="n">Omega_e0</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span> <span class="o">+=</span> <span class="n">Omg_e0</span>
+
+            <span class="c1"># Save results</span>
+            <span class="n">result_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Run/</span><span class="si">{</span><span class="n">project_folder</span><span class="si">}</span><span class="s1">/Results/Omega/</span><span class="si">{</span><span class="n">cat_path</span><span class="si">}</span><span class="s1">&#39;</span>
+            <span class="n">Omega_e0</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">result_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Written: </span><span class="si">{</span><span class="n">result_path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+</div>
+
+
+
+
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Carole Périgois.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

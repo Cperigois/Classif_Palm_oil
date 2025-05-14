@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Princess.astrotools.astromodel &mdash; Princess 0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=7026087e"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Princess
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html">Pkg astrotools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#pkg-cosmology">Pkg Cosmology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#pkg-gwtools">Pkg gwtools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#pkg-stochastic">Pkg stochastic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#module-Princess.Run">Run</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Princess</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Princess.astrotools.astromodel</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Princess.astrotools.astromodel</h1><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading </span><span class="si">{</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Princess.astrotools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">m1_m2_to_mc_q</span><span class="p">,</span> <span class="n">mc_q_to_m1_m2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Princess.gwtools.Network</span><span class="w"> </span><span class="kn">import</span> <span class="n">Network</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Princess.gwtools.Detector</span><span class="w"> </span><span class="kn">import</span> <span class="n">Detector</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Princess.cosmology.cosmology</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cosmology</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Princess.gwtools.snr</span><span class="w"> </span><span class="kn">import</span> <span class="n">SNR_catalog</span><span class="p">,</span> <span class="n">compute_SNR_Networks_catalog</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">Princess.Run.settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">PARAMS_FILE</span>
+
+<span class="c1"># Check PARAMS_FILE value</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">PARAMS_FILE</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">PARAMS_FILE</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The file parameter </span><span class="si">{</span><span class="n">PARAMS_FILE</span><span class="si">}</span><span class="s2"> is missing,. Execute Run.settings.Make_params_file() first.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Charge le fichier de paramètres</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">PARAMS_FILE</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="AstroModel">
+<a class="viewcode-back" href="../../../doc.html#Princess.astrotools.astromodel.AstroModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AstroModel</span><span class="p">:</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="n">duration</span><span class="p">:</span><span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>  <span class="n">original_path</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sep</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">index_column</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">flags</span><span class="p">:</span><span class="nb">dict</span> <span class="o">=</span><span class="p">{},</span> <span class="n">spin_model</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Zeros&quot;</span><span class="p">,</span> <span class="n">orbit_evolution</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">inclination_position</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes an AstroModel instance and loads or creates necessary data.</span>
+
+<span class="sd">        :param name: (str) Name for all outputs from this model. Default is &#39;model&#39;.</span>
+<span class="sd">        :param duration: (float) Duration of the catalogs in years. Default is 1</span>
+<span class="sd">        :param original_path: (str) Path to the user&#39;s original catalog file.</span>
+<span class="sd">        :param sep: (str) Delimiter for the user&#39;s input catalog. Default is &#39;\t&#39;.</span>
+<span class="sd">        :param index_column: (bool) True if the input catalog has an index column. Default is False.</span>
+<span class="sd">        :param flags: (dict) Dictionary of specific flags in the catalog, if applicable. Default is {}.</span>
+<span class="sd">        :param spin_model: (str) Determines how spin components are handled/generated. Default is &#39;Zeros&#39;.</span>
+<span class="sd">        :param orbit_evolution: (bool) True to account for binary evolution. Default is False.</span>
+<span class="sd">        :param inclination_position: (bool) If True, generates inclination, right ascension, and declination</span>
+<span class="sd">        for each catalog source. Default is True.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">original_path</span> <span class="o">=</span> <span class="n">original_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">duration</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sep_cat</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;astro_model_list&#39;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sep&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index_column</span> <span class="o">=</span> <span class="n">index_column</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spin_model</span> <span class="o">=</span> <span class="n">spin_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">flags</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">orbit_evolution</span> <span class="o">=</span> <span class="n">orbit_evolution</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inclination_position</span> <span class="o">=</span> <span class="n">inclination_position</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">catalogs</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Build the list of catalogs based on flags</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">flags</span><span class="p">:</span>  <span class="c1"># No specific flags, single catalog name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">catalogs</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.dat&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># Append flag-specific catalog names</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">flag_name</span> <span class="ow">in</span> <span class="n">flags</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">catalogs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">flag_name</span><span class="si">}</span><span class="s2">.dat&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Determine if model needs to be loaded or created</span>
+        <span class="n">model_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Run/</span><span class="si">{</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_AM.pickle&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span> <span class="ow">or</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;overwrite&#39;</span><span class="p">][</span><span class="s1">&#39;astromodel&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model_path</span><span class="p">)</span>
+
+<div class="viewcode-block" id="AstroModel.load">
+<a class="viewcode-back" href="../../../doc.html#Princess.astrotools.astromodel.AstroModel.load">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">model_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Loads a previously saved AstroModel instance from a pickle file.</span>
+<span class="sd">        If the loaded object is a dictionary, it converts it back into an AstroModel instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>  <span class="c1"># Si c&#39;est un dictionnaire, reconstruire un objet AstroModel</span>
+                <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">obj</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">obj</span>  <span class="c1"># Si c&#39;est déjà un objet AstroModel, on le retourne directement</span>
+
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pickle file for AstroModel not found: </span><span class="si">{</span><span class="n">model_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error loading AstroModel from </span><span class="si">{</span><span class="n">model_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AstroModel.make_catalog">
+<a class="viewcode-back" href="../../../doc.html#Princess.astrotools.astromodel.AstroModel.make_catalog">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_catalog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a catalog with the appropriate parameters for further calculations.</span>
+<span class="sd">        The catalog will be named after the parameter `self.name` and saved in the folder `Catalogs/`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Print the path to the input file</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input file path: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">original_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Attempt to load the source catalog</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">Cat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">original_path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sep_cat</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">index_column</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;python&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">original_path</span><span class="si">}</span><span class="s2"> not found.&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error loading file: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Overview of loaded data:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">Cat</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+
+        <span class="c1"># Initialize the output catalog</span>
+        <span class="n">OutCat</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">Col</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">Cat</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+
+        <span class="c1"># Handle identifiers (if required by parameters)</span>
+        <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;AM_params&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;keepID&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="n">id_col</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;AM_params&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ID_col&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">id_col</span> <span class="ow">and</span> <span class="n">id_col</span> <span class="ow">in</span> <span class="n">Col</span><span class="p">:</span>
+                <span class="n">OutCat</span><span class="p">[</span><span class="n">id_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="n">id_col</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Specified ID column &#39;</span><span class="si">{</span><span class="n">id_col</span><span class="si">}</span><span class="s2">&#39; not found in input data.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Rename input columns if specified in parameters</span>
+        <span class="n">Cat</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;AM_params&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;input_parameters&#39;</span><span class="p">,</span> <span class="p">{}),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># Load cosmology models (parameters from Advanced_params.py</span>
+        <span class="n">cosmology</span> <span class="o">=</span> <span class="n">Cosmology</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;Cosmo_model&#39;</span><span class="p">])</span>
+        <span class="n">cosmology</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+        <span class="c1"># Handle redshift (z)</span>
+        <span class="k">if</span> <span class="s1">&#39;z&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">Col</span><span class="p">:</span>  <span class="c1"># If &#39;z&#39; is missing, compute it from luminosity distance</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cosmology</span><span class="o">.</span><span class="n">compute_z</span><span class="p">(</span><span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;dl&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]</span>
+
+        <span class="c1"># Validate and calculate masses</span>
+        <span class="k">if</span> <span class="s1">&#39;Mc&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">Col</span><span class="p">:</span>  <span class="c1"># If chirp mass is missing, calculate it from m1 and m2</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">]</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;m2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;m2&#39;</span><span class="p">]</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;Mc&#39;</span><span class="p">],</span> <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;q&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m1_m2_to_mc_q</span><span class="p">(</span><span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">],</span> <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;m2&#39;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="s1">&#39;m1&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">Col</span><span class="p">:</span>  <span class="c1"># If m1 and m2 are missing, calculate them from Mc and q</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;Mc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;Mc&#39;</span><span class="p">]</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;q&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;q&#39;</span><span class="p">]</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">],</span> <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;m2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mc_q_to_m1_m2</span><span class="p">(</span><span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;Mc&#39;</span><span class="p">],</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;q&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># If all are present, copy directly</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;Mc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;Mc&#39;</span><span class="p">]</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;q&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;q&#39;</span><span class="p">]</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">]</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;m2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;m2&#39;</span><span class="p">]</span>
+
+        <span class="c1"># Compute luminosity distance (Dl) if missing</span>
+        <span class="k">if</span> <span class="s1">&#39;Dl&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">Col</span><span class="p">:</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;Dl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cosmology</span><span class="o">.</span><span class="n">compute_dl</span><span class="p">(</span><span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;Dl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;Dl&#39;</span><span class="p">]</span>
+
+        <span class="c1"># Handle spin generation based on the selected model</span>
+        <span class="n">available_spin_option</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Spin&amp;Theta&#39;</span><span class="p">,</span> <span class="s1">&#39;Spin&amp;cosTheta&#39;</span><span class="p">,</span> <span class="s1">&#39;Rand_dynamics&#39;</span><span class="p">,</span> <span class="s1">&#39;Rand_aligned&#39;</span><span class="p">,</span> <span class="s1">&#39;Zeros&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">spin_model</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">available_spin_option</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid spin model: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">spin_model</span><span class="si">}</span><span class="s2">. Choose from: </span><span class="si">{</span><span class="n">available_spin_option</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">spin_model</span> <span class="o">==</span> <span class="s1">&#39;Spin&amp;Theta&#39;</span><span class="p">:</span>  <span class="c1"># Input contains spin and theta</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;s1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;s1&#39;</span><span class="p">]</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;s2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;s2&#39;</span><span class="p">]</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;costheta1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;theta1&#39;</span><span class="p">])</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;costheta2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;theta2&#39;</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">spin_model</span> <span class="o">==</span> <span class="s1">&#39;Spin&amp;cosTheta&#39;</span><span class="p">:</span>  <span class="c1"># Input contains spin and cosTheta</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;s1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;s1&#39;</span><span class="p">]</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;s2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;s2&#39;</span><span class="p">]</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;costheta1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;costheta1&#39;</span><span class="p">]</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;costheta2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;costheta2&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># Generate spins dynamically based on random values</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;s1&#39;</span><span class="p">],</span> <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;s2&#39;</span><span class="p">],</span> <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;costheta1&#39;</span><span class="p">],</span> <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;costheta2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_spin</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;z&#39;</span><span class="p">]))</span>
+
+        <span class="c1"># Compute chi1 and chi2 from spins</span>
+        <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;chi1&#39;</span><span class="p">],</span> <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;chi2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_spins</span><span class="p">(</span><span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;s1&#39;</span><span class="p">],</span> <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;s2&#39;</span><span class="p">],</span> <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;costheta1&#39;</span><span class="p">],</span>
+                                                            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;costheta2&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Calculate chip and chieff</span>
+        <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;chip&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;chip&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;chip&#39;</span> <span class="ow">in</span> <span class="n">Col</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_chip</span><span class="p">(</span><span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">],</span> <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;m2&#39;</span><span class="p">],</span> <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;chi1&#39;</span><span class="p">],</span>
+                                                                             <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;chi2&#39;</span><span class="p">],</span> <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;costheta1&#39;</span><span class="p">],</span>
+                                                                             <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;costheta2&#39;</span><span class="p">])</span>
+        <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;chieff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;chieff&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;chieff&#39;</span> <span class="ow">in</span> <span class="n">Col</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_chieff</span><span class="p">(</span><span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">],</span> <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;m2&#39;</span><span class="p">],</span>
+                                                                                     <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;chi1&#39;</span><span class="p">],</span> <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;chi2&#39;</span><span class="p">],</span>
+                                                                                     <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;costheta1&#39;</span><span class="p">],</span>
+                                                                                     <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;costheta2&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Add orbital parameters if evolution is enabled</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">orbit_evolution</span><span class="p">:</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;a0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;a0&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;e0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;e0&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+        <span class="c1"># Handle inclination and sky positions</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inclination_position</span><span class="p">:</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;inc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;inc&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">])))</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;ra&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ra&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">])))</span>
+            <span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;dec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Cat</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;dec&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">OutCat</span><span class="p">[</span><span class="s1">&#39;m1&#39;</span><span class="p">])))</span>
+
+        <span class="c1"># Handle additional flags and save results</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flags</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">flag_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">flagCat</span> <span class="o">=</span> <span class="n">OutCat</span><span class="p">[</span><span class="n">Cat</span><span class="p">[</span><span class="s1">&#39;flag&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span>
+                <span class="n">flagCat</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Catalogs/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">flag_name</span><span class="si">}</span><span class="s1">.dat&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">summary</span> <span class="o">=</span> <span class="n">flagCat</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+                <span class="n">summary</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Catalogs/Ana_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">flag_name</span><span class="si">}</span><span class="s1">.dat&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">output_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Run/</span><span class="si">{</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">/Astro_Models/Catalogs/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.dat&quot;</span>
+            <span class="n">OutCat</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">OutCat</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">to_numpy</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Catalog saved to: </span><span class="si">{</span><span class="n">output_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_SNR_reboot</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="AstroModel.check_SNR_reboot">
+<a class="viewcode-back" href="../../../doc.html#Princess.astrotools.astromodel.AstroModel.check_SNR_reboot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_SNR_reboot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">SNR_2G</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SNR_3G</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SNR_LISA</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SNR_PTA</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="AstroModel.generate_spin">
+<a class="viewcode-back" href="../../../doc.html#Princess.astrotools.astromodel.AstroModel.generate_spin">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_spin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span><span class="nb">int</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">tuple</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate spin magnitude and theta angle from the model set by the user : self.spin_option.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        :param size (int): size of the catalog.</span>
+<span class="sd">        :return: tuple of np.array chi1, chi2, costheta1, costheta2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">spin_model</span> <span class="o">==</span> <span class="s1">&#39;Rand_dynamics&#39;</span> <span class="p">:</span>
+            <span class="n">sigmaSpin</span> <span class="o">=</span> <span class="mf">0.1</span>
+            <span class="n">v1_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">sigmaSpin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">)</span>
+            <span class="n">v2_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">sigmaSpin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">)</span>
+            <span class="n">v3_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">sigmaSpin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">)</span>
+            <span class="n">chi1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v1_L</span> <span class="o">*</span> <span class="n">v1_L</span> <span class="o">+</span> <span class="n">v2_L</span> <span class="o">*</span> <span class="n">v2_L</span> <span class="o">+</span> <span class="n">v3_L</span> <span class="o">*</span> <span class="n">v3_L</span><span class="p">)</span>
+
+            <span class="n">v1_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">sigmaSpin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">)</span>
+            <span class="n">v2_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">sigmaSpin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">)</span>
+            <span class="n">v3_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">sigmaSpin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">)</span>
+            <span class="n">chi2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v1_L</span> <span class="o">*</span> <span class="n">v1_L</span> <span class="o">+</span> <span class="n">v2_L</span> <span class="o">*</span> <span class="n">v2_L</span> <span class="o">+</span> <span class="n">v3_L</span> <span class="o">*</span> <span class="n">v3_L</span><span class="p">)</span>
+
+            <span class="n">costheta1</span> <span class="o">=</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
+            <span class="n">costheta2</span> <span class="o">=</span> <span class="mf">2.</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
+
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">spin_model</span> <span class="o">==</span> <span class="s1">&#39;Rand_aligned&#39;</span> <span class="p">:</span>
+            <span class="n">sigmaSpin</span> <span class="o">=</span> <span class="mf">0.1</span>
+            <span class="n">v1_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">sigmaSpin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">)</span>
+            <span class="n">v2_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">sigmaSpin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">)</span>
+            <span class="n">v3_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">sigmaSpin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">)</span>
+            <span class="n">chi1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v1_L</span> <span class="o">*</span> <span class="n">v1_L</span> <span class="o">+</span> <span class="n">v2_L</span> <span class="o">*</span> <span class="n">v2_L</span> <span class="o">+</span> <span class="n">v3_L</span> <span class="o">*</span> <span class="n">v3_L</span><span class="p">)</span>
+
+            <span class="n">v1_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">sigmaSpin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">)</span>
+            <span class="n">v2_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">sigmaSpin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">)</span>
+            <span class="n">v3_L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">sigmaSpin</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">)</span>
+            <span class="n">chi2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v1_L</span> <span class="o">*</span> <span class="n">v1_L</span> <span class="o">+</span> <span class="n">v2_L</span> <span class="o">*</span> <span class="n">v2_L</span> <span class="o">+</span> <span class="n">v3_L</span> <span class="o">*</span> <span class="n">v3_L</span><span class="p">)</span>
+
+            <span class="n">costheta1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+            <span class="n">costheta2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">spin_model</span> <span class="o">==</span> <span class="s1">&#39;Zeros&#39;</span> <span class="p">:</span>
+            <span class="n">chi1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+            <span class="n">chi2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+            <span class="n">costheta1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+            <span class="n">costheta2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+
+
+        <span class="k">return</span> <span class="n">chi1</span><span class="p">,</span> <span class="n">chi2</span><span class="p">,</span> <span class="n">costheta1</span><span class="p">,</span> <span class="n">costheta2</span></div>
+
+
+<div class="viewcode-block" id="AstroModel.compute_spins">
+<a class="viewcode-back" href="../../../doc.html#Princess.astrotools.astromodel.AstroModel.compute_spins">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_spins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chi1</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">chi2</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">costheta1</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">costheta2</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">tuple</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute spins of the two components s_i = chi_i*costheta_i</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        :param chi1 (np.1darray): Array containing the magnitudes of the first components.</span>
+<span class="sd">        :param chi2 (np.1darray): Array containing the magnitudes of the second components.</span>
+<span class="sd">        :param costheta1 (np.1darray): Array containing the theta cosine of the first components.</span>
+<span class="sd">        :param costheta2 (np.1darray): Array containing the theta cosine of the second components.</span>
+<span class="sd">        :return: tuple containing two np.1darray s1(s2) is the projection on the z axis of the spin for firts(seconds)</span>
+<span class="sd">                components.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">s1</span> <span class="o">=</span> <span class="n">chi1</span><span class="o">*</span><span class="n">costheta1</span>
+        <span class="n">s2</span> <span class="o">=</span> <span class="n">chi2</span><span class="o">*</span><span class="n">costheta2</span>
+        <span class="k">return</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span></div>
+
+
+<div class="viewcode-block" id="AstroModel.compute_chieff">
+<a class="viewcode-back" href="../../../doc.html#Princess.astrotools.astromodel.AstroModel.compute_chieff">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_chieff</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m1</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">m2</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">chi1</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">chi2</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">cos_theta_1</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                       <span class="n">cos_theta_2</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the effective spin of each binaries.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        :param m1 (np.1darray): Array containing the masses of the first component.</span>
+<span class="sd">        :param m2 (np.1darray): Array containing the masses of the second component.</span>
+<span class="sd">        :param chi1 (np.1darray): Array containing the magnitudes of the first components.</span>
+<span class="sd">        :param chi2 (np.1darray): Array containing the magnitudes of the second components.</span>
+<span class="sd">        :param cos_theta_1 (np.1darray): Array containing the theta cosine of the first components.</span>
+<span class="sd">        :param cos_theta_2 (np.1darray): Array containing the theta cosine of the second components.</span>
+<span class="sd">        :return (np.1darray): Array with the effective spin of each binaries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">chieff</span> <span class="o">=</span> <span class="p">(</span><span class="n">chi1</span> <span class="o">*</span> <span class="n">cos_theta_1</span> <span class="o">*</span> <span class="n">m1</span> <span class="o">+</span> <span class="n">chi2</span> <span class="o">*</span> <span class="n">cos_theta_2</span> <span class="o">*</span> <span class="n">m2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">m1</span> <span class="o">+</span> <span class="n">m2</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">chieff</span></div>
+
+
+
+<div class="viewcode-block" id="AstroModel.compute_chip">
+<a class="viewcode-back" href="../../../doc.html#Princess.astrotools.astromodel.AstroModel.compute_chip">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_chip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">chi1</span><span class="p">,</span> <span class="n">chi2</span><span class="p">,</span> <span class="n">cos_theta_1</span><span class="p">,</span> <span class="n">cos_theta_2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the precessing spin of each binaries.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        :param m1 (np.1darray): Array containing the masses of the first component.</span>
+<span class="sd">        :param m2 (np.1darray): Array containing the masses of the second component.</span>
+<span class="sd">        :param chi1 (np.1darray): Array containing the magnitudes of the first components.</span>
+<span class="sd">        :param chi2 (np.1darray): Array containing the magnitudes of the second components.</span>
+<span class="sd">        :param cos_theta_1 (np.1darray): Array containing the theta cosine of the first components.</span>
+<span class="sd">        :param cos_theta_2 (np.1darray): Array containing the theta cosine of the second components.</span>
+<span class="sd">        :return (np.1darray): Array with the precessing spin of each binaries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">chip1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2.</span> <span class="o">+</span> <span class="p">(</span><span class="mf">3.</span> <span class="o">*</span> <span class="n">m2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">m1</span><span class="p">))</span> <span class="o">*</span> <span class="n">chi1</span> <span class="o">*</span> <span class="n">m1</span> <span class="o">*</span> <span class="n">m1</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">cos_theta_1</span> <span class="o">*</span> <span class="n">cos_theta_1</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+        <span class="n">chip2</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2.</span> <span class="o">+</span> <span class="p">(</span><span class="mf">3.</span> <span class="o">*</span> <span class="n">m1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">m2</span><span class="p">))</span> <span class="o">*</span> <span class="n">chi2</span> <span class="o">*</span> <span class="n">m2</span> <span class="o">*</span> <span class="n">m2</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">cos_theta_2</span> <span class="o">*</span> <span class="n">cos_theta_2</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+        <span class="n">chipmax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">chip1</span><span class="p">,</span> <span class="n">chip2</span><span class="p">)</span>
+        <span class="n">chip</span> <span class="o">=</span> <span class="n">chipmax</span> <span class="o">/</span> <span class="p">((</span><span class="mf">2.</span> <span class="o">+</span> <span class="p">(</span><span class="mf">3.</span> <span class="o">*</span> <span class="n">m2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">m1</span><span class="p">))</span> <span class="o">*</span> <span class="n">m1</span> <span class="o">*</span> <span class="n">m1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">chip</span></div>
+
+
+<div class="viewcode-block" id="AstroModel.compute_SNR">
+<a class="viewcode-back" href="../../../doc.html#Princess.astrotools.astromodel.AstroModel.compute_SNR">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_SNR</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">det_list_2G</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([])</span>
+        <span class="n">det_list_3G</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([])</span>
+        <span class="k">for</span> <span class="n">det</span> <span class="ow">in</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;detector_list&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">detector</span> <span class="o">=</span> <span class="n">Detector</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">det</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">detector</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;LISA&#39;</span> <span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Princess not ready for this computation&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">detector</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;PTA&#39;</span> <span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Princess not ready for this computation&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">detector</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;2G&#39;</span> <span class="p">:</span>
+                <span class="n">det_list_2G</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">detector</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">detector</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;3G&#39;</span><span class="p">:</span>
+                <span class="n">det_list_3G</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">detector</span><span class="p">)</span>
+
+        <span class="c1">#changes in the SNR function import gwtools.tools as gwt, takes in entry catalog path the list of catalogs from self.catalogs</span>
+        <span class="c1"># catalog_path = f&#39;./Run/{params[&quot;name_of_project_folder&quot;]}/Astro_Models/Catalogs&#39;:</span>
+        <span class="c1"># takes name of the model and RETURN the dataframe with the SNRs, and save the new catalogs</span>
+        <span class="k">if</span> <span class="p">((</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">SNR_2G</span><span class="p">)</span> <span class="ow">or</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;overwrite&#39;</span><span class="p">][</span><span class="s1">&#39;individual_snr&#39;</span><span class="p">])</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">det_list_2G</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">SNR_catalog</span><span class="p">(</span><span class="n">catalog_name</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">det_list</span> <span class="o">=</span> <span class="n">det_list_2G</span><span class="p">,</span> <span class="n">waveform</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;detector_params&#39;</span><span class="p">][</span><span class="s1">&#39;types&#39;</span><span class="p">][</span><span class="s1">&#39;2G&#39;</span><span class="p">][</span><span class="s1">&#39;waveform&#39;</span><span class="p">],</span> <span class="n">freq</span> <span class="o">=</span> <span class="n">det_list_2G</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">freq</span> <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SNR_2G</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">SNR_2G</span> <span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SNR for 2G detectors already computed&#39;</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Possible error...Check values for SNR check point am.SNR_2G and the presence of 2G detectors in catalog columns&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">((</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">SNR_3G</span><span class="p">)</span> <span class="ow">or</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;overwrite&#39;</span><span class="p">][</span><span class="s1">&#39;individual_snr&#39;</span><span class="p">])</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">det_list_3G</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">SNR_catalog</span><span class="p">(</span><span class="n">catalog_name</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">det_list</span><span class="o">=</span> <span class="n">det_list_3G</span><span class="p">,</span> <span class="n">waveform</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;detector_params&#39;</span><span class="p">][</span><span class="s1">&#39;types&#39;</span><span class="p">][</span><span class="s1">&#39;3G&#39;</span><span class="p">][</span><span class="s1">&#39;waveform&#39;</span><span class="p">],</span> <span class="n">freq</span> <span class="o">=</span> <span class="n">det_list_3G</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">freq</span> <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SNR_3G</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">SNR_3G</span> <span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;SNR for 3G detectors already computed&#39;</span><span class="p">)</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Possible error...Check values for SNR check point am.SNR_3G and the presence of 2G detectors in catalog columns&quot;</span><span class="p">)</span>
+        <span class="n">compute_SNR_Networks_catalog</span><span class="p">(</span><span class="n">catalog_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="AstroModel.save">
+<a class="viewcode-back" href="../../../doc.html#Princess.astrotools.astromodel.AstroModel.save">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Saves the current AstroModel instance to a pickle file for later use.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">model_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Run/</span><span class="si">{</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_AM.pickle&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">model_path</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AstroModel &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; saved successfully.&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error saving AstroModel &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+</div>
+
+
+
+
+
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Carole Périgois.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

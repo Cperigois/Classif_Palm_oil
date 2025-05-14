@@ -1,0 +1,39 @@
+
+
+[build-system]
+requires = ["setuptools>=58.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Classif_Palm_Oil"
+authors = [
+  { name = "Carole Périgois", email = "caroleperigois@outlook.com" }
+]
+maintainers = [
+  { name = "Carole Périgois", email = "caroleperigois@outlook.com" },
+]
+description = "Train for satellite images classification using pytorch."
+readme = "README.md"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3.11",
+]
+dynamic = ["version"]
+requires-python = ">=3.6"
+dependencies = [ # write all needed libraries
+  "optuna",
+  "pytorch",
+  "joblib",
+  "scikit-learn",
+  "numpy==1.24.0",
+  "pycbc",
+  "pandas",
+  "scipy"
+]
+
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = { attr = "Classif_Palm_oil.__version__" }

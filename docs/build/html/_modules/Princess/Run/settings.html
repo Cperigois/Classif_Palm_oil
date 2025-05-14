@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Princess.Run.settings &mdash; Princess 0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=7026087e"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Princess
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html">Pkg astrotools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#pkg-cosmology">Pkg Cosmology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#pkg-gwtools">Pkg gwtools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#pkg-stochastic">Pkg stochastic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#module-Princess.Run">Run</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Princess</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Princess.Run.settings</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Princess.Run.settings</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.util</span>
+
+<span class="n">PARAMS_FILE</span> <span class="o">=</span> <span class="s2">&quot;../src/Princess/Run/Params.json&quot;</span>  <span class="c1"># Global parameter containing the path to Params.json</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">import_module_from_path</span><span class="p">(</span><span class="n">module_name</span><span class="p">,</span> <span class="n">file_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dynamically import a package from its path.&quot;&quot;&quot;</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">spec_from_file_location</span><span class="p">(</span><span class="n">module_name</span><span class="p">,</span> <span class="n">file_path</span><span class="p">)</span>
+    <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">module_from_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">exec_module</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">module</span>
+
+<div class="viewcode-block" id="Make_param_file">
+<a class="viewcode-back" href="../../../doc.html#Princess.Run.Make_param_file">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">Make_param_file</span><span class="p">(</span><span class="n">getting_started_path</span><span class="o">=</span><span class="s2">&quot;Princess/Run/getting_started.py&quot;</span><span class="p">,</span>
+                    <span class="n">advanced_params_path</span><span class="o">=</span><span class="s2">&quot;Princess/Run/advanced_params.py&quot;</span><span class="p">,</span>
+                    <span class="n">params_file_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate Params.json, to gather all the parameters set in getting_started.py and advanced_params.py&quot;&quot;&quot;</span>
+
+    <span class="c1"># Importation dynamique des modules</span>
+    <span class="n">GS</span> <span class="o">=</span> <span class="n">import_module_from_path</span><span class="p">(</span><span class="s2">&quot;GS&quot;</span><span class="p">,</span> <span class="n">getting_started_path</span><span class="p">)</span>
+    <span class="n">AP</span> <span class="o">=</span> <span class="n">import_module_from_path</span><span class="p">(</span><span class="s2">&quot;AP&quot;</span><span class="p">,</span> <span class="n">advanced_params_path</span><span class="p">)</span>
+
+    <span class="c1"># If necessary create project folder</span>
+    <span class="n">project_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;Run&#39;</span><span class="p">,</span> <span class="n">GS</span><span class="o">.</span><span class="n">name_of_project_folder</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">project_folder</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Creates dictionnary with getting_starded parameters</span>
+    <span class="n">param_dictionary</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">:</span> <span class="n">GS</span><span class="o">.</span><span class="n">name_of_project_folder</span><span class="p">,</span>
+        <span class="s1">&#39;astro_model_list&#39;</span><span class="p">:</span> <span class="n">GS</span><span class="o">.</span><span class="n">astro_model_list</span><span class="p">,</span>
+        <span class="s1">&#39;detector_list&#39;</span><span class="p">:</span> <span class="n">GS</span><span class="o">.</span><span class="n">detector_list</span><span class="p">,</span>
+        <span class="s1">&#39;network_list&#39;</span><span class="p">:</span> <span class="n">GS</span><span class="o">.</span><span class="n">network_list</span><span class="p">,</span>
+        <span class="s1">&#39;frequency_size&#39;</span><span class="p">:</span> <span class="n">GS</span><span class="o">.</span><span class="n">frequency_size</span><span class="p">,</span>
+        <span class="s1">&#39;n_cpu_max&#39;</span><span class="p">:</span> <span class="n">GS</span><span class="o">.</span><span class="n">n_cpu_max</span><span class="p">,</span>
+        <span class="s1">&#39;overwrite&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;astromodel&#39;</span><span class="p">:</span> <span class="n">GS</span><span class="o">.</span><span class="n">rerun_astromodels</span><span class="p">,</span>
+            <span class="s1">&#39;individual_snr&#39;</span><span class="p">:</span> <span class="n">GS</span><span class="o">.</span><span class="n">rerun_snr_computation</span><span class="p">,</span>
+            <span class="s1">&#39;detectors&#39;</span><span class="p">:</span> <span class="n">GS</span><span class="o">.</span><span class="n">rerun_detectors</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;results&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;cleaning&#39;</span><span class="p">:</span> <span class="n">GS</span><span class="o">.</span><span class="n">run_data_cleaning</span><span class="p">,</span>
+            <span class="s1">&#39;plots&#39;</span><span class="p">:</span> <span class="n">GS</span><span class="o">.</span><span class="n">run_plots</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Creates dictionnary with advanced parameters</span>
+    <span class="n">advParams</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;AM_params&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;input_parameters&#39;</span><span class="p">:</span> <span class="n">AP</span><span class="o">.</span><span class="n">input_parameters</span><span class="p">,</span>
+            <span class="s1">&#39;keepID&#39;</span><span class="p">:</span> <span class="n">AP</span><span class="o">.</span><span class="n">keepID</span><span class="p">,</span>
+            <span class="s1">&#39;ID_col&#39;</span><span class="p">:</span> <span class="n">AP</span><span class="o">.</span><span class="n">ID_col</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;detector_params&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;detectors_avail&#39;</span><span class="p">:</span> <span class="n">AP</span><span class="o">.</span><span class="n">detectors_avail</span><span class="p">,</span>
+            <span class="s1">&#39;psd_attributes&#39;</span><span class="p">:</span> <span class="n">AP</span><span class="o">.</span><span class="n">psd_attributes</span><span class="p">,</span>
+            <span class="s1">&#39;types&#39;</span><span class="p">:</span> <span class="n">AP</span><span class="o">.</span><span class="n">types</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;Inclination&quot;</span><span class="p">:</span> <span class="n">AP</span><span class="o">.</span><span class="n">Inclination</span><span class="p">,</span>
+        <span class="s2">&quot;Cosmo_model&quot;</span><span class="p">:</span> <span class="n">AP</span><span class="o">.</span><span class="n">cosmo_model</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Définition du chemin du fichier Params.json</span>
+    <span class="n">params_file_path</span> <span class="o">=</span> <span class="n">params_file_path</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;Run&#39;</span><span class="p">,</span> <span class="s1">&#39;Params.json&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Sauvegarde des paramètres et mise à jour de la variable globale</span>
+    <span class="k">global</span> <span class="n">PARAMS_FILE</span>
+    <span class="n">PARAMS_FILE</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">GS</span><span class="o">.</span><span class="n">name_of_project_folder</span><span class="p">,</span> <span class="n">param_dictionary</span><span class="p">,</span> <span class="n">advParams</span><span class="p">,</span> <span class="n">params_file_path</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="set">
+<a class="viewcode-back" href="../../../doc.html#Princess.Run.set">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="n">_projectFolder</span><span class="p">,</span> <span class="n">_paramDictionnary</span><span class="p">,</span> <span class="n">_advParamDictionnary</span><span class="p">,</span> <span class="n">params_file_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save parameters in Params.json, and update the value of PARAMS_FILE&quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Validation des entrées</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_paramDictionnary</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">_advParamDictionnary</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Les paramètres doivent être des dictionnaires.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Merging dictionnaries</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">_paramDictionnary</span><span class="p">,</span> <span class="o">**</span><span class="n">_advParamDictionnary</span><span class="p">}</span>
+        <span class="n">json_object</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+        <span class="c1"># Eventually creates folders</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">params_file_path</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Write .json</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">params_file_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json_object</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Paramètres enregistrés dans </span><span class="si">{</span><span class="n">params_file_path</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">params_file_path</span>  <span class="c1"># Retourne le chemin du fichier Params.json</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Erreur lors de l&#39;écriture des fichiers : </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="clean">
+<a class="viewcode-back" href="../../../doc.html#Princess.Run.clean">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">clean</span><span class="p">():</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;Run/Params.json&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">am</span> <span class="ow">in</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;astro_model_list&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;Run/&#39;</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span> <span class="n">am</span> <span class="o">+</span><span class="s1">&#39;_AM.pickle&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">det</span> <span class="ow">in</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;detector_list&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;Run/&#39;</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span> <span class="n">det</span> <span class="o">+</span><span class="s1">&#39;_DET.pickle&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">net</span> <span class="ow">in</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;network_list&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;Run/&#39;</span> <span class="o">+</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;name_of_project_folder&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">net</span> <span class="o">+</span> <span class="s1">&#39;_NET.pickle&#39;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;Run/Params.json&#39;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="make_params_template">
+<a class="viewcode-back" href="../../../doc.html#Princess.Run.make_params_template">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_params_template</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Copy getting_started.py and advanced_params.py in path&quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">destination</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Eventually creates destination folder</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="s2">&quot;Princess/Run/getting_started.py&quot;</span><span class="p">,</span> <span class="n">destination</span><span class="p">)</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="s2">&quot;Princess/Run/advanced_params.py&quot;</span><span class="p">,</span> <span class="n">destination</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Files copy to </span><span class="si">{</span><span class="n">destination</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error while loading the files : </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Carole Périgois.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

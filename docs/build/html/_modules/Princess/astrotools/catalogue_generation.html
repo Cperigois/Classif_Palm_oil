@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Princess.astrotools.catalogue_generation &mdash; Princess 0.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=7026087e"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Princess
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html">Pkg astrotools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#pkg-cosmology">Pkg Cosmology</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#pkg-gwtools">Pkg gwtools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#pkg-stochastic">Pkg stochastic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.html#module-Princess.Run">Run</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Princess</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Princess.astrotools.catalogue_generation</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Princess.astrotools.catalogue_generation</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<div class="viewcode-block" id="sample_distribution">
+<a class="viewcode-back" href="../../../doc.html#Princess.astrotools.catalogue_generation.sample_distribution">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sample_distribution</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate samples from a given distribution.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - distribution (str): Type of distribution (&#39;uniform&#39; or &#39;gaussian&#39;).</span>
+<span class="sd">    - size (int): Number of samples.</span>
+<span class="sd">    - kwargs: Parameters for the chosen distribution.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    - np.array: Generated samples.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">distribution</span> <span class="o">==</span> <span class="s2">&quot;uniform&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;low&quot;</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;high&quot;</span><span class="p">],</span> <span class="n">size</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">distribution</span> <span class="o">==</span> <span class="s2">&quot;gaussian&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;mean&quot;</span><span class="p">],</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;std&quot;</span><span class="p">],</span> <span class="n">size</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid distribution type. Choose &#39;uniform&#39; or &#39;gaussian&#39;.&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="generate_population">
+<a class="viewcode-back" href="../../../doc.html#Princess.astrotools.catalogue_generation.generate_population">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_population</span><span class="p">(</span><span class="n">num_sources</span><span class="p">,</span> <span class="n">mass_method</span><span class="o">=</span><span class="s2">&quot;m1_m2&quot;</span><span class="p">,</span> <span class="n">mass_distribution</span><span class="o">=</span><span class="s2">&quot;uniform&quot;</span><span class="p">,</span> <span class="n">z_distribution</span><span class="o">=</span><span class="s2">&quot;uniform&quot;</span><span class="p">,</span>
+                        <span class="n">mass_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">z_params</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a binary system population with given distributions.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - num_sources (int): Number of binary systems to generate.</span>
+<span class="sd">    - mass_method (str): &#39;m1_m2&#39; for primary and secondary mass, &#39;chirp_q&#39; for chirp mass and mass ratio.</span>
+<span class="sd">    - mass_distribution (str): &#39;uniform&#39; or &#39;gaussian&#39; for mass parameters.</span>
+<span class="sd">    - z_distribution (str): &#39;uniform&#39; or &#39;gaussian&#39; for redshift.</span>
+<span class="sd">    - mass_params (dict): Parameters for mass distribution.</span>
+<span class="sd">    - z_params (dict): Parameters for redshift distribution.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    - pd.DataFrame: Generated population.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">mass_params</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">z_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;mass_params and z_params must be provided.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">mass_method</span> <span class="o">==</span> <span class="s2">&quot;m1_m2&quot;</span><span class="p">:</span>
+        <span class="n">m1</span> <span class="o">=</span> <span class="n">sample_distribution</span><span class="p">(</span><span class="n">mass_distribution</span><span class="p">,</span> <span class="n">num_sources</span><span class="p">,</span> <span class="o">**</span><span class="n">mass_params</span><span class="p">)</span>
+        <span class="n">m2</span> <span class="o">=</span> <span class="n">sample_distribution</span><span class="p">(</span><span class="n">mass_distribution</span><span class="p">,</span> <span class="n">num_sources</span><span class="p">,</span> <span class="o">**</span><span class="n">mass_params</span><span class="p">)</span>
+        <span class="n">chirp_mass</span> <span class="o">=</span> <span class="p">(</span><span class="n">m1</span> <span class="o">*</span> <span class="n">m2</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">3</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">m1</span> <span class="o">+</span> <span class="n">m2</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">m2</span> <span class="o">/</span> <span class="n">m1</span>
+    <span class="k">elif</span> <span class="n">mass_method</span> <span class="o">==</span> <span class="s2">&quot;chirp_q&quot;</span><span class="p">:</span>
+        <span class="n">chirp_mass</span> <span class="o">=</span> <span class="n">sample_distribution</span><span class="p">(</span><span class="n">mass_distribution</span><span class="p">,</span> <span class="n">num_sources</span><span class="p">,</span> <span class="o">**</span><span class="n">mass_params</span><span class="p">)</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">sample_distribution</span><span class="p">(</span><span class="n">mass_distribution</span><span class="p">,</span> <span class="n">num_sources</span><span class="p">,</span> <span class="o">**</span><span class="n">mass_params</span><span class="p">)</span>
+        <span class="n">m1</span> <span class="o">=</span> <span class="n">chirp_mass</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">q</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">/</span> <span class="n">q</span> <span class="o">**</span> <span class="p">(</span><span class="mi">3</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">m2</span> <span class="o">=</span> <span class="n">q</span> <span class="o">*</span> <span class="n">m1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid mass method. Choose &#39;m1_m2&#39; or &#39;chirp_q&#39;.&quot;</span><span class="p">)</span>
+
+    <span class="n">z</span> <span class="o">=</span> <span class="n">sample_distribution</span><span class="p">(</span><span class="n">z_distribution</span><span class="p">,</span> <span class="n">num_sources</span><span class="p">,</span> <span class="o">**</span><span class="n">z_params</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+        <span class="s2">&quot;m1&quot;</span><span class="p">:</span> <span class="n">m1</span><span class="p">,</span>
+        <span class="s2">&quot;m2&quot;</span><span class="p">:</span> <span class="n">m2</span><span class="p">,</span>
+        <span class="s2">&quot;Mc&quot;</span><span class="p">:</span> <span class="n">chirp_mass</span><span class="p">,</span>
+        <span class="s2">&quot;q&quot;</span><span class="p">:</span> <span class="n">q</span><span class="p">,</span>
+        <span class="s2">&quot;z&quot;</span><span class="p">:</span> <span class="n">z</span>
+    <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="save_population">
+<a class="viewcode-back" href="../../../doc.html#Princess.astrotools.catalogue_generation.save_population">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">save_population</span><span class="p">(</span><span class="n">population_df</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save the generated population to a .dat file using Pandas.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - population_df (pd.DataFrame): Population data.</span>
+<span class="sd">    - filename (str): Output file name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">population_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Catalogue saved as </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Carole Périgois.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
